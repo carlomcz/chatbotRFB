@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="None">
+        
+        
+        <link rel="shortcut icon" href="img/favicon.ico">
+        <title>ChatBot para Orientações Tributárias e informação sobre os Serviços da Receita Federal</title>
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href="css/font-awesome.min.css" rel="stylesheet">
+        <link href="css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css">
+
+        <script src="js/jquery-1.10.2.min.js" defer></script>
+        <script src="js/bootstrap.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script> 
+    </head>
+
+    <body class="homepage">
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href=".">ChatBot para Orientações Tributárias e informação sobre os Serviços da Receita Federal</a>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="2"><a href="#desenvolvimento-de-um-chatbot-para-orientacao-do-contribuinte-que-procura-o-atendimento-da-receita-federal-do-brasil-rfb" class="nav-link">Desenvolvimento de um chatbot para orientação do contribuinte que procura o atendimento da Receita Federal do Brasil (RFB)</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-level="2"><a href="#autores" class="nav-link">Autores</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-level="2"><a href="#resumo" class="nav-link">RESUMO</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-level="2"><a href="#abstract" class="nav-link">ABSTRACT</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-level="2"><a href="#1-introducao" class="nav-link">1. Introdução</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-level="2"><a href="#2-desenvolvimento" class="nav-link">2. Desenvolvimento</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-level="2"><a href="#3-consideracoes-finais" class="nav-link">3. Considerações Finais</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-level="2"><a href="#referencias" class="nav-link">Referências</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-level="2"><a href="#glossario" class="nav-link">Glossário</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-level="2"><a href="#apendice" class="nav-link">Apêndice</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-level="2"><a href="#anexos" class="nav-link">Anexos</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-level="2"><a href="#agradecimentos" class="nav-link">Agradecimentos</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h2 id="desenvolvimento-de-um-chatbot-para-orientacao-do-contribuinte-que-procura-o-atendimento-da-receita-federal-do-brasil-rfb">Desenvolvimento de um chatbot para orientação do contribuinte que procura o atendimento da Receita Federal do Brasil (RFB)</h2>
+<h2 id="autores">Autores</h2>
+<p><em>Adriano S. Zumba, Carlo C. Taglialegna e Reynaldo Assunção</em></p>
+<h2 id="resumo">RESUMO</h2>
+<p>Este artigo se destina a propor o desenvolvimento de um assistente virtual 
+(chatbot) que seja capaz de interagir com o contribuinte e direcioná-lo rapidamente 
+ao serviço demandado ou às orientações tributárias necessárias, tendo em vista a
+grande quantidade de serviços ofertados e os diversos canais de atendimento existentes na RFB. O objetivo do chatbot é diminuir a dificuldade encontrada pelos contribuintes quando 
+da demanda por um serviço específico e evitar a navegação desnecessária pelas 
+muitas páginas existentes no site da Receita Federal do Brasil.</p>
+<p><strong>Palavras-chave:</strong> Chatbot; Atendimento; Receita Federal do Brasil.</p>
+<h2 id="abstract">ABSTRACT</h2>
+<p>This article is intended to propose the development of a virtual assistant 
+(chatbot) that is able to interact with the taxpayer and quickly direct him to the 
+required service or the necessary tax guidelines, aiming at the large amount of 
+services offered and the various channels service. The purpose of the chatbot is to 
+reduce the difficulty encountered by taxpayers when they demand a specific service 
+and to avoid unnecessary navigation through the many pages on the Receita Federal do Brasil
+website.</p>
+<p><strong>Key words:</strong> Chatbot; Atendimento; Receita Federal.</p>
+<p><strong>Data de submissão:</strong> dia.mês.ano </p>
+<p><strong>Data de aprovação:</strong> dia.mês.ano</p>
+<p><strong>Disponibilidade:</strong> (endereço eletrônico do artigo, DOI ou outras informações).</p>
+<h2 id="1-introducao">1. Introdução</h2>
+<p>A Receita Federal do Brasil administra um número expressivo de tributos e contribuições, 
+o que implica em uma quantidade enorme de assuntos e serviços relacionados a eles.</p>
+<p>A orientação ao contribuinte sobre esses temas, bem como a prestação de uma 
+quantidade enorme de serviços disponíveis, cabe a uma rede de atendimento composta 
+por cerca de uma dezena de canais de atendimento existentes na estrutura do órgão. A 
+porta de entrada para o contribuinte é o site da instituição, que pode ser acessado pelo 
+endereço <a href="https://www.gov.br/receitafederal/pt-br">https://www.gov.br/receitafederal/pt-br</a>, o qual, a despeito de ser bastante 
+organizado, contendo informações detalhadas sobre cada serviço/assunto, exige do 
+contribuinte a navegação por muitas páginas dispostas em uma grande árvore de menus, 
+o que dificulta muito a busca pelo atendimento de que necessita. A existência dessa diversidade de canais de atendimento torna difícil a identificação do canal de atendimento 
+apropriado para a realização de um determinado serviço ou consulta. Muitas vezes, o 
+contribuinte tem que percorrer vários desses canais até encontrar a solução para o seu 
+problema, numa busca intrincada que leva a uma certa perda de tempo.</p>
+<p>Por outro lado, as regras que estabelecem a competência de cada um dos canais 
+de atendimento têm sido modificadas com muita frequência desde o advento da pandemia 
+do novo coronavírus, ocasionando, muitas vezes, conflitos de competência entre as 
+atividades desses canais. Com isso, observa-se uma certa ineficiência e demora no 
+atendimento das solicitações dos contribuintes, gerando uma grande insatisfação por parte 
+dos mesmos. Como consequência, temos um aumento no número de reclamações nos 
+diversos canais de Ouvidoria.</p>
+<p>Em épocas de restrições à presença do contribuinte em nossas unidades de 
+atendimento, como a que estamos vivendo, o atendimento virtual se apresenta como uma 
+alternativa viável para manter a disponibilidade na prestação de serviços aos 
+contribuintes. Some-se a isso o fechamento de muitos postos de atendimento presenciais. 
+Dessa forma, o uso dessas tecnologias possibilita não só a alta disponibilidade dos 
+serviços, mas também a redução dos custos operacionais associados.</p>
+<p>Diante do cenário aqui exposto, propomos o desenvolvimento de um assistente 
+virtual (chatbot) que seja capaz de interagir com o contribuinte, de modo que ele possa 
+encontrar rapidamente o serviço demandado ou as orientações tributárias de que 
+necessita, sem ter que navegar pelas muitas páginas existentes no site da Receita Federal. 
+Em nosso modelo proposto, o chatbot indicará onde o usuário obter orientações tributárias e/ou informações sobre o Serviço que procura,  para ter a sua solicitação atendida com rapidez e eficiência.</p>
+<pre><code>
+
+A introdução é o primeiro elemento textual. Nela deve-se expor a finalidade e os objetivos do trabalho de modo que o leitor tenha uma visão do tema abordado.
+De modo geral, a introdução deve apresentar:
+
+a)  as características do conteúdo a ser explorado;
+
+b)  o objeto do trabalho e sua delimitação (delimitar de forma clara os limites da pesquisa);
+
+c)  o estágio do desenvolvimento do assunto, isto é, apresentar o que existe publicado sobre o assunto;
+
+d)  o problema; 
+
+e)  o(s) objetivo(s);
+
+f)  quando necessário, hipóteses ou variáveis;
+
+g)  justificativa do estudo;
+
+h)  metodologia utilizada;
+
+i)  referência as partes do trabalho e as
+
+j)  possibilidades de contribuição da pesquisa, sem anunciar conclusões e soluções (MEDEIROS, 2007).*
+</code></pre>
+<h2 id="2-desenvolvimento">2. Desenvolvimento</h2>
+<pre><code>Parte principal e mais extensa do trabalho deve apresentar a fundamentação teórica, a metodologia, os resultados e a discussão. 
+
+Divide-se em seções e subseções conforme a NBR 6024 (ASSOCIAÇÃO BRASILEIRA DE NORMAS TÉCNICAS, 2018a).
+</code></pre>
+<h2 id="3-consideracoes-finais">3. Considerações Finais</h2>
+<p>Espera-se com esse projeto criar uma ferramenta que possua uma interface amigável e 
+eficiente, que facilite ao cidadão o atendimento de suas solicitações, fornecendo 
+informações de forma ágil e útil ao mesmo tempo, em consonância com um dos pilares 
+fundamentais dos princípios que norteiam a administração pública: a eficiência.</p>
+<p>A democratização das informações por meio de uma interface mais amigável é 
+fundamental para garantir a prestação de um atendimento de qualidade, reduzindo custos 
+de trabalho adicionais por parte da administração; propiciando padronização, 
+conformidade e redução de deslocamentos desnecessários do cidadão; e uma maior 
+disponibilidade de atendimento, que, no caso, seria em tempo integral.</p>
+<p>Portanto, o objetivo do presente trabalho é demonstrar - sem, no entanto, esgotar 
+o tema - que a partir de dados atuais disponibilizados em portais públicos, como o da 
+RFB, é possível, com o uso de tecnologias e recursos de código aberto, desenvolver um 
+chatbot funcional que facilite a prestação eficiente de um serviço de grande relevância ao 
+contribuinte, que é uma orientação tributária adequada e informações sobre como obter um determinado serviço neste Órgão, evitando assim perda de tempo e reclamações formais desnecessárias.</p>
+<pre><code>Parte final do artigo, onde se apresentam as conclusões obtidas, mesmo que parciais.
+
+As conclusões devem responder às questões da pesquisa, correspondentes aos objetivos e hipóteses. 
+
+Além disso, devem ser breves podendo apresentar recomendações e sugestões para trabalhos futuros.
+</code></pre>
+<h2 id="referencias">Referências</h2>
+<h2 id="glossario">Glossário</h2>
+<h2 id="apendice">Apêndice</h2>
+<h2 id="anexos">Anexos</h2>
+<h2 id="agradecimentos">Agradecimentos</h2></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>
+            var base_url = ".",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="js/base.js" defer></script>
+        <script src="search/main.js" defer></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
+
+<!--
+MkDocs version : 1.2.3
+Build Date UTC : 2022-01-17 00:53:34.771146+00:00
+-->
