@@ -112,12 +112,22 @@
                 <h3 id="visao-geral-da-ferramenta">Visão Geral da ferramenta</h3>
 <p>O Assistente Virtual de atendimento (chatbot) irá interagir com o usuário em uma conversa,  onde o
  usuário vai digitar uma frase com a sua dúvida sobre um serviço prestado pela RFB ou sobre alguma
- orientação tributária sobre algum assunto de competência da Receita Federal do Brasil.</p>
+ orientação tributária relativo a algum assunto de competência da Receita Federal do Brasil.</p>
 <p>O Bot irá procurar uma resposta  no Banco de Dados e enviar ao usuário a melhor ou as melhores
  respostas que encontrar, ou então enviar uma mensagem de que não encontrou uma resposta
- apropriada. Neste caso o Bot irá solicitar ao usuário a reformulação da sua pergunta ou então digite
- palavras chave para que o aplicativo faça uma busca no site da RFB utilizando o mecanismo
- de busca do Google e redirecionando-o para esta página de busca.</p>
+ apropriada. Neste caso o Bot irá solicitar ao usuário a reformulação da sua pergunta ou então a digitação de
+ palavras chave para que o aplicativo faça uma busca no site da RFB com estas palavras digitadas e
+ utilizando o mecanismo  de busca do Google.</p>
+<p>Os Bancos de Dados com as perguntas e respostas foram criados a partir das informações constantes no site
+da RFB, hospedado no domínio <strong>.gov.br</strong>. Os dados foram extraídos utilizando-se programas feitos na
+linguagem de programação Python. Após a extração estes foram gravados em planilhas Excel.</p>
+<p>Os dados extraídos foram processados , de modo a extrair as palavras chave significativas e que foram utilizadas
+para alimentar o <em>"Corpus"</em> dos modelos de dados,  que serão utilizados para comparar as frases digitadas pelo usuário
+com as perguntas e respostas constantes no Banco de Dados, e indicando a resposta ou respostas com o maior índice
+de similaridade, utilizando-se para isso algoritmos de processamento de linguagem natural (PLN).</p>
+<p>A conversa do ChatBot com os usuários foi implementada através de um aplicativo hospedado em uma página Web, 
+desenvolvido também na  linguagem Python, utilizando-se do <em>Frameword Flask</em>.</p>
+<p>Na seção "Metodologia e Implementação" serão detalhadas as etapas necessárias para se chegar ao resultado final.</p>
               
             </div>
           </div>

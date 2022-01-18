@@ -57,6 +57,14 @@
                 <ul class="current">
                     <li class="toctree-l1 current"><a class="reference internal current" href="./">Metodologia e Implementação</a>
     <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#extracao-dos-dados">Extração dos Dados</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#dados-sobre-os-servicos-disponibilizados-pela-rfb-e-pgfn">Dados sobre os serviços disponibilizados pela RFB e PGFN:</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#dados-com-as-orientacoes-tributarias-da-rfb">Dados com as Orientações Tributárias da RFB:</a>
+    </li>
+        </ul>
+    </li>
     </ul>
                     </li>
                 </ul>
@@ -110,6 +118,31 @@
             <div class="section">
               
                 <h2 id="metodologia-e-implementacao">Metodologia e Implementação</h2>
+<h3 id="extracao-dos-dados">Extração dos Dados</h3>
+<h4 id="dados-sobre-os-servicos-disponibilizados-pela-rfb-e-pgfn">Dados sobre os serviços disponibilizados pela RFB e PGFN:</h4>
+<p>Foram extraídos das páginas disponíveis em https://www.gov.br/pt-br/orgaos/secretaria-especial-da-receita-federal-do-brasil
+ e https://www.gov.br/pt-br/orgaos/procuradoria-geral-da-fazenda-nacional.</p>
+<p>Para fazer a extração através de Web Scraping, foi utilizada a biblioteca Python BeautifulSoup, com o código sendo escrito
+em um Notebook Jupyter nomeado </p>
+<h4 id="dados-com-as-orientacoes-tributarias-da-rfb">Dados com as Orientações Tributárias da RFB:</h4>
+<p>Extraídas de páginas disponíveis no Menu de Navegação do site da Receita Federal , opção "Assuntos", "Mais Orientações Tributárias".</p>
+<p>Foram extraídos os assuntos dos seguintes itens deste Menu de Navegação:</p>
+<ul>
+<li>Cadastro;</li>
+<li>Declarações e Demonstrativos;</li>
+<li>Julgamento Administrativo;</li>
+<li>Pagamentos e Parcelamentos;</li>
+<li>Restituição, Ressarcimento, Reembolso e Compensação e</li>
+<li>Tributos</li>
+</ul>
+<p>NÃO estão incluidos neste protótipo muitos assuntos, tais como SIMPLES NACIONAL e MEI, ESOCIAL, PGFN, SPED, 
+TRIBUTOS ADUANEIROS, dentre outros.</p>
+<p>A extração foi feita em 2 etapas:</p>
+<ul>
+<li>Utilizou-se a biblioteca Scrapy para extrair os links que interessavam e que foram gravados em planilhas</li>
+<li>Numa segunda etapa foi utilizado a biblioteca BeautifulSoup para acessar cada link e extrair as informações que
+serão utilizadas para compor o Banco de Perguntas e respostas, também salvos em planilhas Excel.</li>
+</ul>
               
             </div>
           </div>
