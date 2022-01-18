@@ -9,7 +9,7 @@
   
   
   <link rel="shortcut icon" href="../img/favicon.ico">
-  <title>Metodologia e Implementação - ChatBot para Orientações Tributárias e informação sobre os Serviços da Receita Federal</title>
+  <title>Metodologia - ChatBot para Orientações Tributárias e informação sobre os Serviços da Receita Federal</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
 
   <link rel="stylesheet" href="../css/theme.css" />
@@ -18,7 +18,7 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "Metodologia e Implementa\u00e7\u00e3o";
+    var mkdocs_page_name = "Metodologia";
     var mkdocs_page_input_path = "metodologia.md";
     var mkdocs_page_url = null;
   </script>
@@ -55,7 +55,7 @@
                     </li>
                 </ul>
                 <ul class="current">
-                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Metodologia e Implementação</a>
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Metodologia</a>
     <ul class="current">
     <li class="toctree-l2"><a class="reference internal" href="#extracao-dos-dados">Extração dos Dados</a>
         <ul>
@@ -65,7 +65,21 @@
     </li>
         </ul>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#tratamento-dos-dados">Tratamento dos dados</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#criacao-dos-modelos">Criação dos Modelos</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#bag-of-words">Bag of Words</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#tf-idf">TF-IDF</a>
+    </li>
+        </ul>
+    </li>
     </ul>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../implementacao/">Implementação</a>
                     </li>
                 </ul>
                 <ul>
@@ -105,7 +119,7 @@
     
       
     
-    <li>Metodologia e Implementação</li>
+    <li>Metodologia</li>
     <li class="wy-breadcrumbs-aside">
       
     </li>
@@ -117,7 +131,7 @@
           <div role="main">
             <div class="section">
               
-                <h2 id="metodologia-e-implementacao">Metodologia e Implementação</h2>
+                <h2 id="metodologia">Metodologia</h2>
 <h3 id="extracao-dos-dados">Extração dos Dados</h3>
 <h4 id="dados-sobre-os-servicos-disponibilizados-pela-rfb-e-pgfn">Dados sobre os serviços disponibilizados pela RFB e PGFN:</h4>
 <p>Foram extraídos das páginas disponíveis em https://www.gov.br/pt-br/orgaos/secretaria-especial-da-receita-federal-do-brasil
@@ -143,6 +157,43 @@ TRIBUTOS ADUANEIROS, dentre outros.</p>
 <li>Numa segunda etapa foi utilizado a biblioteca BeautifulSoup para acessar cada link e extrair as informações que
 serão utilizadas para compor o Banco de Perguntas e respostas, também salvos em planilhas Excel.</li>
 </ul>
+<h3 id="tratamento-dos-dados">Tratamento dos dados</h3>
+<p>O pré-processamento dos dados é necessário para que os mesmos fiquem de forma a atender as necessidades dos modelos de Machine Learning que vamos utilizar. 
+Em geral estima-se que 80% de todo projeto é gasto nesta etapa. </p>
+<p>No nosso caso o pré-processamento consistiu em:</p>
+<ul>
+<li>Limpeza dos dados, para remover espaços e outros caracteres indesejáveis;</li>
+<li>Tokenizar o texto, de modo a extrair as palavras-chave que serão utilizadas nos modelos de NLP:<ul>
+<li>converter o texto para letras minúsculas;</li>
+<li>separar o textos em palavras;</li>
+<li>reduzir as palavras a sua raiz(Lemma) e remover as palavras sem significado semântico (Stop Words)</li>
+<li>gravar na planilha todas as palavras significativas encontradas no texto</li>
+</ul>
+</li>
+</ul>
+<h3 id="criacao-dos-modelos">Criação dos Modelos</h3>
+<p>Para trabalhar com os  algoritmos de machine learning que irão comparar a pergunta do usuário com as que temos no nosso
+Banco de Dados, precisamos converter esse texto em números.</p>
+<p>Para isso utilizamos duas técnicas:</p>
+<ul>
+<li>Bag of Words e </li>
+<li>TF-IDF </li>
+</ul>
+<h4 id="bag-of-words">Bag of Words</h4>
+<p>O bag of words (saco de palavras) é um modelo que representa as palavras de uma frase através de uma matriz numérica, 
+baseado apenas na frequência em que elas aparecem nesta frase, não considerando nenhuma informação sobre a gramática ou
+ a ordem em que as palavras aparecem no texto.</p>
+<h4 id="tf-idf">TF-IDF</h4>
+<p>Do inglês Term Frequency - Inverse Document Frequency.</p>
+<p>Ele é uma medida estatística que indica a importância de um termo de um documento em relação a uma coleção de documentos.</p>
+<p>O tf-idf de um termo/palavra é um índice proporcional a sua frequência dentro do próprio documento e 
+inversamente proporcional a frequência em que ele aparece em todo o conjunto de documentos.</p>
+<p>A fórmula matemática é: TF-IDF = TF x IDF, onde</p>
+<p>TF = (número de vezes que o termo aparece em um documento) / (número de termos no documento) , e </p>
+<p>IDF = log (N / n), em que N é o número de documentos e n é o número de documentos em que o termo apareceu.</p>
+<p>Assim, utilizando-se de bibliotecas python apropriadas, calculamos o TF-IDF das palavras chave da frase digitada pelo usuário,
+com as palavras chave de cada uma das perguntas/respostas existentes em nosso  banco de dados, e indicando as que tem a maior
+similaridade com a dúvida do usuário.</p>
               
             </div>
           </div>
@@ -150,7 +201,7 @@ serão utilizadas para compor o Banco de Perguntas e respostas, também salvos e
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../tratamento/" class="btn btn-neutral float-right" title="Coleta de Dados">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../implementacao/" class="btn btn-neutral float-right" title="Implementação">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
         <a href="../visao_geral/" class="btn btn-neutral" title="Visão Geral"><span class="icon icon-circle-arrow-left"></span> Previous</a>
@@ -182,7 +233,7 @@ serão utilizadas para compor o Banco de Perguntas e respostas, também salvos e
       <span><a href="../visao_geral/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
-      <span><a href="../tratamento/" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="../implementacao/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>
