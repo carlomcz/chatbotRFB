@@ -67,7 +67,7 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#tratamento-dos-dados">Tratamento dos dados</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#criacao-dos-modelos">Criação dos Modelos</a>
+    <li class="toctree-l2"><a class="reference internal" href="#modelo-de-nlp-utilizado">Modelo de NLP utilizado</a>
         <ul>
     <li class="toctree-l3"><a class="reference internal" href="#bag-of-words">Bag of Words</a>
     </li>
@@ -88,10 +88,6 @@
                 </ul>
                 <ul>
                     <li class="toctree-l1"><a class="reference internal" href="../leonino/">App Web</a>
-                    </li>
-                </ul>
-                <ul>
-                    <li class="toctree-l1"><a class="reference internal" href="../questionario/">Questionário</a>
                     </li>
                 </ul>
                 <ul>
@@ -171,7 +167,7 @@ Em geral estima-se que 80% de todo projeto é gasto nesta etapa. </p>
 </ul>
 </li>
 </ul>
-<h3 id="criacao-dos-modelos">Criação dos Modelos</h3>
+<h3 id="modelo-de-nlp-utilizado">Modelo de NLP utilizado</h3>
 <p>Para trabalhar com os  algoritmos de machine learning que irão comparar a pergunta do usuário com as que temos no nosso
 Banco de Dados, precisamos converter esse texto em números.</p>
 <p>Para isso utilizamos duas técnicas:</p>
@@ -192,8 +188,9 @@ inversamente proporcional a frequência em que ele aparece em todo o conjunto de
 <p>TF = (número de vezes que o termo aparece em um documento) / (número de termos no documento) , e </p>
 <p>IDF = log (N / n), em que N é o número de documentos e n é o número de documentos em que o termo apareceu.</p>
 <p>Assim, utilizando-se de bibliotecas python apropriadas, calculamos o TF-IDF das palavras chave da frase digitada pelo usuário,
-com as palavras chave de cada uma das perguntas/respostas existentes em nosso  banco de dados, e indicando as que tem a maior
-similaridade com a dúvida do usuário.</p>
+e comparamos com TF-IDF das palavras chave de cada uma das perguntas/respostas existentes em nosso  banco de dados, indicando as
+que tem a maior similaridade com a dúvida do usuário.</p>
+<p>Para criar os modelos TF-IDF que serão utilizados pelo Chatbot , foi utilizada a biblioteca Gensim</p>
               
             </div>
           </div>
