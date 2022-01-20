@@ -69,6 +69,8 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#modelo-de-nlp-utilizado">Modelo de NLP utilizado</a>
         <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#similaridade-por-cosseno">Similaridade por Cosseno</a>
+    </li>
     <li class="toctree-l3"><a class="reference internal" href="#bag-of-words">Bag of Words</a>
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#tf-idf">TF-IDF</a>
@@ -170,11 +172,11 @@ Em geral estima-se que 80% de todo projeto é gasto nesta etapa. </p>
 <h3 id="modelo-de-nlp-utilizado">Modelo de NLP utilizado</h3>
 <p>Para trabalhar com os  algoritmos de machine learning que irão comparar a pergunta do usuário com as que temos no nosso
 Banco de Dados, precisamos converter esse texto em números.</p>
-<p>Para isso utilizamos duas técnicas:</p>
-<ul>
-<li>Bag of Words e </li>
-<li>TF-IDF </li>
-</ul>
+<p>Para isso utilizamos o algoritmo de "Similaridade do Cosseno" e duas técnicas, chamadas "Bag of Words" e "TF-IDF".</p>
+<h4 id="similaridade-por-cosseno">Similaridade por Cosseno</h4>
+<p>A similaridade por cosseno mede a similaridade entre dois vetores calculando o cosseno do ângulo entre estes.
+É uma das medidas de similaridade mais amplamente utilizadas e poderosas em Data Science. </p>
+<p>No nosso caso a utilizamos para  estabelecer uma métrica de semelhança entre frases/textos.</p>
 <h4 id="bag-of-words">Bag of Words</h4>
 <p>O bag of words (saco de palavras) é um modelo que representa as palavras de uma frase através de uma matriz numérica, 
 baseado apenas na frequência em que elas aparecem nesta frase, não considerando nenhuma informação sobre a gramática ou
@@ -190,7 +192,8 @@ inversamente proporcional a frequência em que ele aparece em todo o conjunto de
 <p>Assim, utilizando-se de bibliotecas python apropriadas, calculamos o TF-IDF das palavras chave da frase digitada pelo usuário,
 e comparamos com TF-IDF das palavras chave de cada uma das perguntas/respostas existentes em nosso  banco de dados, indicando as
 que tem a maior similaridade com a dúvida do usuário.</p>
-<p>Para criar os modelos TF-IDF que serão utilizados pelo Chatbot , foi utilizada a biblioteca Gensim</p>
+<p>Para criar os modelos que utilizam a Similaridade por Cosseno e o TF-IDF  e fornecem as resposta enviadas pelo ChatBot,
+ foi utilizada a biblioteca Python Gensim.</p>
               
             </div>
           </div>
