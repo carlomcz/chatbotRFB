@@ -61,7 +61,7 @@
                 <ul class="current">
                     <li class="toctree-l1 current"><a class="reference internal current" href="./">Implementação</a>
     <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#extracao-dos-dados">Extração dos Dados</a>
+    <li class="toctree-l2"><a class="reference internal" href="#extracaoraspagem-dos-dados">Extração/Raspagem dos Dados</a>
         <ul>
     <li class="toctree-l3"><a class="reference internal" href="#importacao-das-bibliotecas-python-necessarias">Importação das bibliotecas Python necessárias</a>
     </li>
@@ -77,11 +77,45 @@
     </li>
         </ul>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#extracao-das-palavras-chave-dos-servicos">Extração das palavras chave dos serviços</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#extraindo-as-sentencas-principais-do-texto-oquee-dos-servicos-rfb">Extraindo as sentenças principais do texto oQueE dos serviços RFB</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#importando-as-bibliotecas">Importando as bibliotecas</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#extracao-das-palavras-chaves-das-informacoes-de-cada-servico">Extração das palavras chaves das informações de cada serviço</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#grava-os-servicos-em-uma-planilha">Grava os serviços em uma planilha</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#carrega-os-dataframes-com-o-conteudo-das-duas-planilhas">Carrega os dataframes com o conteúdo das duas planilhas</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#carrega-bibliotecas-de-nlp-spacy-e-nltk">carrega bibliotecas de NLP, spacy e nltk</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#tokenizacao-e-extracao-das-palavras-chave-dos-servicos">Tokenização e extração das palavras chave dos serviços</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#grava-versao-final-da-planilha-de-servicos">Grava versão final da planilha de serviços</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#tokenizacao-e-extracao-das-palavras-chaves-das-frases-de-conversas-comuns">Tokenização e extração das palavras chaves das frases de conversas comuns</a>
+    </li>
+        </ul>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#criando-os-modelos-nlp-utilizados-pelo-bot">Criando os modelos NLP utilizados pelo Bot</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#importando-os-pacotes-gensim">importando os pacotes gensim</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#lendo-dados-para-treinamento-servicos-e-conversas-comuns">Lendo dados para treinamento (serviços e conversas comuns)</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#modelo-bag-of-wordsbow-criando-um-dicionario-um-corpus-e-um-modelo">Modelo Bag of Words(Bow) - Criando um dicionário, um corpus e um modelo</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#componentes-do-pipeline-para-criar-o-modelo-codigo-acima">componentes do pipeline para criar o modelo (código acima)</a>
+    </li>
+        </ul>
+    </li>
     </ul>
-                    </li>
-                </ul>
-                <ul>
-                    <li class="toctree-l1"><a class="reference internal" href="../tratamento/">Coleta de Dados</a>
                     </li>
                 </ul>
                 <ul>
@@ -126,7 +160,7 @@
             <div class="section">
               
                 <h2 id="implementacao">Implementação</h2>
-<h3 id="extracao-dos-dados">Extração dos Dados</h3>
+<h3 id="extracaoraspagem-dos-dados">Extração/Raspagem dos Dados</h3>
 <p>A coleta dos dados foi realizada através de código desenvolvido em Python e executados no Jupyter Notebook,
 em um notebook de nome 01raspa_servicos.ypnb.</p>
 <p>Abaixo mostraremos o código com comentários explicando a lógica.</p>
@@ -219,6 +253,238 @@ dfx['oQue'] = oques
 dfx.to_excel('./ServicosRFBePGFN_Final.xlsx', index = False)
 #
 </code></pre>
+<h3 id="extracao-das-palavras-chave-dos-servicos">Extração das palavras chave dos serviços</h3>
+<p><strong>Nome do notebook jupyter: 02extrai_palavras_chave.ypnb</strong>:</p>
+<h4 id="extraindo-as-sentencas-principais-do-texto-oquee-dos-servicos-rfb">Extraindo as sentenças principais do texto oQueE dos serviços RFB</h4>
+<h5 id="importando-as-bibliotecas">Importando as bibliotecas</h5>
+<pre><code class="language-python">#IMPORTANDO AS BIBLIOTECAS NECESSÁRIAS
+import  nltk
+import time
+import pandas as pd
+import os
+import re
+from nltk.tokenize import word_tokenize
+from nltk.tokenize import sent_tokenize
+from nltk.corpus import stopwords
+from string import punctuation
+from nltk.probability import FreqDist
+from collections import defaultdict
+from heapq import nlargest
+#
+</code></pre>
+<h5 id="extracao-das-palavras-chaves-das-informacoes-de-cada-servico">Extração das palavras chaves das informações de cada serviço</h5>
+<pre><code class="language-python"># código para verificar as sentenças mais importantes no texto da descrição do serviço, texto do qual
+# serão extraídas as palavras chave para utilização nos modelos utilizados pelo chatbot
+#
+# lista com as stopwords, ou seja, palavras não importantes e que podem ser descartadas 
+stopwords1 = stopwords.words('portuguese') + list(punctuation) + ['–']
+plx = ['``',&quot;''&quot;] # caracteres de pontuação também indesejáveis
+# lê a planilha gerada anteriormente, com os dados dos serviços
+df1 = pd.read_excel('./ServicosRFBePGFN_Final.xlsx')
+#
+chave_lst =  [] # lista para guardar as palavras chave
+for i in range(len(df1)): # loop que itera sobre cada serviço para extrair as frases mais importantes do texto
+    sentencas = sent_tokenize(df1.iloc[i][2]) # separando o texto em sentenças
+    texto = &quot;&quot;
+    for j in sentencas: # converte a lista com as sentenças em string
+        texto = texto + j + &quot; &quot;
+    texto = texto.strip().lower() # transforma o texto em minúsculas
+    palavras = word_tokenize(texto) # tokeniza o texto em palavras
+    palavras_sem_stopwords = [palavra for palavra in palavras if palavra not in stopwords1] # retira as stopwords do texto
+    palavras_sem_stopwords1 = []
+    for pal in palavras_sem_stopwords: #retira os caracteres indesejáveis do texto
+        if pal not in plx:
+            palavras_sem_stopwords1.append(pal)
+    palavras_sem_stopwords = palavras_sem_stopwords1
+    frequencia = FreqDist(palavras_sem_stopwords) # cria a distribuição de frequência das palavras
+    sentencas_importantes = defaultdict(int) # cria dicionário que conterá as sentenças mais importantes
+    for k, sentenca in enumerate(sentencas): #calcula a pontuação de cadas sentença, baseado na frequência das palavras
+        for palavra in word_tokenize(sentenca.lower()):
+            if palavra in frequencia:
+                sentencas_importantes[k] += frequencia[palavra]
+    # separa as 3 sentenças com maior pontuação
+    idx_sentencas_importantes = nlargest(3, sentencas_importantes, sentencas_importantes.get)
+    #atribui peso 4 ao título do serviço e peso 3 para a sentença mais importante do texto da descrição do serviço
+    str_chave = str(df1.iloc[i][0]+' ')*4 + (sentencas[0]+ ' ')*3 # string com as palavras chave
+    for y in sorted(idx_sentencas_importantes): # acrescenta as sentenças importantes na string de palavras chave
+        str_chave = str_chave + &quot; &quot; + sentencas[y]
+    chave_lst.append(str_chave) # acrescenta a string de palavras chave a lista
+#
+# para compor a lista das palavras chaves, foi atribuido peso 4 para o título do serviço, peso 4 para a
+# frase mais importante e peso 1 para as outras duas frases importantes
+#  
+</code></pre>
+<h5 id="grava-os-servicos-em-uma-planilha">Grava os serviços em uma planilha</h5>
+<pre><code class="language-python">df1['texto_chave'] = chave_lst
+df1.to_excel('./ServicosRfbFinal.xlsx', index = False)
+#
+len(df1) # número de serviços da base de dados = 181
+</code></pre>
+<h5 id="carrega-os-dataframes-com-o-conteudo-das-duas-planilhas">Carrega os dataframes com o conteúdo das duas planilhas</h5>
+<pre><code class="language-python">df1 = pd.read_excel('./ServicosRfbFinal.xlsx')
+df2 = pd.read_excel('./PerguntasTreinamento.xlsx') # planilha criada manualmente com perguntas/respostas comuns
+#
+</code></pre>
+<h5 id="carrega-bibliotecas-de-nlp-spacy-e-nltk">carrega bibliotecas de NLP, spacy e nltk</h5>
+<pre><code class="language-python">import spacy
+nlp = spacy.load(&quot;pt_core_news_md&quot;) #carrega o corpus em português do spacy
+from nltk.stem import RSLPStemmer
+from nltk.tokenize import sent_tokenize, word_tokenize
+nltk.download('rslp')
+ste = nltk.stem.RSLPStemmer()
+</code></pre>
+<h5 id="tokenizacao-e-extracao-das-palavras-chave-dos-servicos">Tokenização e extração das palavras chave dos serviços</h5>
+<pre><code class="language-python">def troca_acentos(txt): #função que retira os acentos da língua
+  transTable = txt.maketrans(&quot;áàãéêíóôõúÁÃÃÉÊÍÓÔÕÚçÇ&quot;, &quot;aaaeeiooouaaaeeioooucc&quot;) 
+  txt = txt.translate(transTable)
+  return str(txt)
+#
+#
+# função que tokeniza as palavras
+#
+def tokenizar(texto): # função que tokeniza o texto, e deixa somente palavras significativas
+# 
+    car_nok = ['SPACE', 'DET','ADP', 'CCONJ','PUNCT','PRON','SCONJ']
+    txx = texto
+    docxx = nlp(txx)
+    txx_lemma = [(token.text,token.orth_, token.lemma_, token.pos_) for token in docxx] #reduz a palavra ao seu Lemma
+    pal_xx = ''
+    plvxx = &quot;&quot;
+    for i in txx_lemma:
+        if i[3] not in car_nok and len(i[0]) &gt; 2:
+            plvxx = plvxx + ste.stem(i[0]) + ' '
+    plvxx = plvxx.strip()
+    plvxx = troca_acentos(plvxx)
+    return plvxx
+# fim funcao tokenizar
+#
+
+# função para limpar o texto
+def limpa_texto(txt_a_limpar): # transforma em minúsculas e retira espa;os iniciais e finais
+
+    txt_ok = txt_a_limpar.lower()
+    txt_ok = txt_ok.strip()
+    return txt_ok
+#
+# fim da funcao limpa_texto
+#
+#
+# cria planilha com as palavras chave dos serviços
+print(&quot;***inicio tokenização dos serviços***&quot;)
+plvx1 = []
+# loop para percorrer o dataframe e extrair as palavras chave
+for j in range(len(df1)):
+    # composição do texto = 3 vezes palavras do título descrevendo o serviço
+    # supõe-se serem as palavras mais importantes, por isso deu-se a elas o peso 5
+    # as palavras explicando o que é o serviço (oQue) também serão extraídas
+    txt = df1.iloc[j][3]
+    txt_token = tokenizar(limpa_texto(txt))
+    plvx1.append(txt_token)
+# acrescenta coluna com as palavras chave ao dataframe
+df1['chaves_serv'] = plvx1
+#
+
+#
+print(&quot;#### fim tokenização dos serviços ####&quot;)
+#
+</code></pre>
+<h5 id="grava-versao-final-da-planilha-de-servicos">Grava versão final da planilha de serviços</h5>
+<pre><code class="language-python"># grava as palavras chave na planilha de serviços
+df1.to_excel('./ServicosRfbFinal2.xlsx', index = False)
+</code></pre>
+<h5 id="tokenizacao-e-extracao-das-palavras-chaves-das-frases-de-conversas-comuns">Tokenização e extração das palavras chaves das frases de conversas comuns</h5>
+<pre><code class="language-python">print(&quot;*** inicio tokenização das conversas ***&quot;)
+# cria planilha com as palavras chave dos serviços
+plvx1 = []
+# loop para percorrer o dataframe e extrair as palavras chave
+for j in range(len(df2)):
+    # composição do texto = 3 vezes palavras do título descrevendo o serviço
+    # supõe-se serem as palavras mais importantes, por isso deu-se a elas o peso 5
+    # as palavras explicando o que é o serviço (oQue) também serão extraídas
+    txt = df2.iloc[j][0] + ' ' 
+    txt_token = tokenizar(limpa_texto(txt))
+    plvx1.append(txt_token)
+# acrescenta coluna com as palavras chave ao dataframe
+df2['chaves_serv'] = plvx1
+#
+print(&quot;#### fim tokenização das conversas ####&quot;)
+</code></pre>
+<h3 id="criando-os-modelos-nlp-utilizados-pelo-bot">Criando os modelos NLP utilizados pelo Bot</h3>
+<p><strong>Continuação do  notebook jupyter: 02extrai_palavras_chave.ypnb</strong>:</p>
+<h4 id="importando-os-pacotes-gensim">importando os pacotes gensim</h4>
+<pre><code class="language-python">#!pip install gensim
+import gensim
+import gensim.downloader as api
+from gensim.models import TfidfModel
+from gensim.corpora import Dictionary
+from gensim import similarities
+</code></pre>
+<h4 id="lendo-dados-para-treinamento-servicos-e-conversas-comuns">Lendo dados para treinamento (serviços e conversas comuns)</h4>
+<pre><code class="language-python">#
+df1 = pd.read_excel('./ServicosRfbFinal2.xlsx')
+#
+servicos = []
+for i in range(len(df1)):
+    servicos.append(str(df1.iloc[i][4]))
+ids = [i for i in range(len(df1))]
+dataset1 = pd.DataFrame({'id': ids,'desc': servicos})
+#
+df2 = pd.read_excel('./PerguntasTreinamento2.xlsx')
+#
+conversas = []
+for i in range(len(df2)):
+    conversas.append(str(df2.iloc[i][3]))
+ids = [i for i in range(len(df2))]
+dataset2 = pd.DataFrame({'id': ids,'desc': conversas})
+</code></pre>
+<h3 id="modelo-bag-of-wordsbow-criando-um-dicionario-um-corpus-e-um-modelo">Modelo Bag of Words(Bow) - Criando um dicionário, um corpus e um modelo</h3>
+<pre><code class="language-python"># Transforma a descricao do servico em tokens de palavras
+input_tokens = [d.split() for d in dataset1['desc'].values]
+
+# Criando um dicionario com os textos do dataset
+dct1 = Dictionary(input_tokens)
+
+# Converte corpus para o formato BOW (Bag Of Words)
+corpus1 = [dct1.doc2bow(line) for line in input_tokens]
+
+# Cria um modelo TF-IDF
+model1 = TfidfModel(corpus1)
+#
+# Transforma as conversas de treinamento em tokens de palavras
+input_tokens = [d.split() for d in dataset2['desc'].values]
+
+# Criando um dicionario com os textos do dataset
+dct2 = Dictionary(input_tokens)
+
+# Converte corpus para o formato BOW (Bag Of Words)
+corpus2 = [dct2.doc2bow(line) for line in input_tokens]
+
+# Cria um modelo TF-IDF
+model2 = TfidfModel(corpus2)
+#
+# Salvando os modelos e os dicionários para uso do Chatbot
+#
+dct1.save('dct1')
+model1.save('model1')
+dct2.save('dct2')
+model2.save('model2')
+</code></pre>
+<p><strong>OBSERVAÇÕES</strong></p>
+<h4 id="componentes-do-pipeline-para-criar-o-modelo-codigo-acima">componentes do pipeline para criar o modelo (código acima)</h4>
+<ul>
+<li>
+<p><strong>input_tokens</strong> -&gt; separa as palavras de cada texto;</p>
+</li>
+<li>
+<p><strong>dct</strong> -&gt;  lista cada palavra dos textos em um dicionario;</p>
+</li>
+<li>
+<p><strong>corpus</strong> -&gt; faz um mapeamento de cada texto com os ids do dicionario (id da palavra, quantidade de ocorrencias);</p>
+</li>
+<li>
+<p><strong>model</strong> -&gt; é o transformer responsavel por traduzir o corpus em um TF-IDF</p>
+</li>
+</ul>
               
             </div>
           </div>
@@ -226,7 +492,7 @@ dfx.to_excel('./ServicosRFBePGFN_Final.xlsx', index = False)
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../tratamento/" class="btn btn-neutral float-right" title="Coleta de Dados">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../leonino/" class="btn btn-neutral float-right" title="App Web">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
         <a href="../metodologia/" class="btn btn-neutral" title="Metodologia"><span class="icon icon-circle-arrow-left"></span> Previous</a>
@@ -258,7 +524,7 @@ dfx.to_excel('./ServicosRFBePGFN_Final.xlsx', index = False)
       <span><a href="../metodologia/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
-      <span><a href="../tratamento/" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="../leonino/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>
