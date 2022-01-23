@@ -93,7 +93,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Visão Geral
+              Introdução
             
           </span>
         </div>
@@ -187,12 +187,12 @@
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          Visão Geral
+          Introdução
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <a href="." class="md-nav__link md-nav__link--active">
-        Visão Geral
+        Introdução
       </a>
       
         
@@ -212,6 +212,33 @@
   <a href="#visao-geral-da-ferramenta" class="md-nav__link">
     Visão Geral da ferramenta
   </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sobre-o-trabalho-desenvolvido" class="md-nav__link">
+    Sobre o Trabalho desenvolvido
+  </a>
+  
+    <nav class="md-nav" aria-label="Sobre o Trabalho desenvolvido">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#autores" class="md-nav__link">
+    Autores
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resumo" class="md-nav__link">
+    RESUMO
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -306,8 +333,8 @@
   
   
     <li class="md-nav__item">
-      <a href="leonino/" class="md-nav__link">
-        App Web
+      <a href="gera_orientacoes/" class="md-nav__link">
+        Gera Perguntas e Respostas das Orientações
       </a>
     </li>
   
@@ -321,8 +348,8 @@
   
   
     <li class="md-nav__item">
-      <a href="about/" class="md-nav__link">
-        About
+      <a href="leonino/" class="md-nav__link">
+        Aplicativo Web
       </a>
     </li>
   
@@ -359,6 +386,33 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#sobre-o-trabalho-desenvolvido" class="md-nav__link">
+    Sobre o Trabalho desenvolvido
+  </a>
+  
+    <nav class="md-nav" aria-label="Sobre o Trabalho desenvolvido">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#autores" class="md-nav__link">
+    Autores
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resumo" class="md-nav__link">
+    RESUMO
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -372,27 +426,43 @@
               
                 
 
-  <h1>Visão Geral</h1>
+  <h1>Introdução</h1>
 
-<h3 id="visao-geral-da-ferramenta">Visão Geral da ferramenta</h3>
+<h2 id="visao-geral-da-ferramenta">Visão Geral da ferramenta</h2>
 <p>O Assistente Virtual de atendimento (chatbot) irá interagir com o usuário em uma conversa,  onde o
  usuário vai digitar uma frase com a sua dúvida sobre um serviço prestado pela RFB ou sobre alguma
- orientação tributária relativo a algum assunto de competência da Receita Federal do Brasil.</p>
-<p>O Bot irá procurar uma resposta  no Banco de Dados e enviar ao usuário a melhor ou as melhores
+ orientação tributária relativa a algum assunto de competência da Receita Federal do Brasil.</p>
+<p>O Bot irá procurar por uma resposta  no Banco de Dados e enviar ao usuário a melhor ou as melhores
  respostas que encontrar, ou então enviar uma mensagem de que não encontrou uma resposta
- apropriada. Neste caso o Bot irá solicitar ao usuário a reformulação da sua pergunta ou então a digitação de
- palavras chave para que o aplicativo faça uma busca no site da RFB com estas palavras digitadas e
+ apropriada. Neste último caso o Bot irá solicitar ao usuário a reformulação da sua pergunta ou então a digitação de
+ palavras chave para que o aplicativo faça uma busca no site da RFB com estas palavras digitadas, 
  utilizando o mecanismo  de busca do Google.</p>
 <p>Os Bancos de Dados com as perguntas e respostas foram criados a partir das informações constantes no site
 da RFB, hospedado no domínio <strong>.gov.br</strong>. Os dados foram extraídos utilizando-se programas feitos na
-linguagem de programação Python. Após a extração estes foram gravados em planilhas Excel.</p>
-<p>Os dados extraídos foram processados , de modo a extrair as palavras chave significativas e que foram utilizadas
-para alimentar o <em>"Corpus"</em> dos modelos de dados,  que serão utilizados para comparar as frases digitadas pelo usuário
-com as perguntas e respostas constantes no Banco de Dados, e indicando a resposta ou respostas com o maior índice
-de similaridade, utilizando-se para isso algoritmos de processamento de linguagem natural (PLN).</p>
+linguagem de programação Python. Após a extração gravamos os textos em planilhas Excel.</p>
+<p>Os textos extraídos foram processados , de modo a serem retiradas as palavras chave mais significativas, alimentando o <em>"Corpus"</em> dos modelos de dados,  que serão utilizados para comparar as frases digitadas pelo usuário
+com as perguntas e respostas compostas a partir dos textos extraídos. A dúvida/pergunta do usuário será também processada extraindo-se as 
+palavras chaves significativas e depois será comparada com cada uma das frases constantes no Banco de Dados, e o bot envia para o usuário
+as perguntas que tiverem os maiores índices de similaridade com a frase digitada.</p>
 <p>A conversa do ChatBot com os usuários foi implementada através de um aplicativo hospedado em uma página Web, 
 desenvolvido também na  linguagem Python, utilizando-se do <em>Framework Flask</em>.</p>
-<p>Na seção "Metodologia e Implementação" serão detalhadas as etapas necessárias para se chegar ao resultado final.</p>
+<h2 id="sobre-o-trabalho-desenvolvido">Sobre o Trabalho desenvolvido</h2>
+<p>Este aplicativo é a base de um Artigo Científico que será apresentado como requisito para obtenção do título
+de Especialista em Ciência de Dados dos autores, como trabalho final do Curso de Especialização em Ciência de Dados - ECD,
+da Universidade Federal do Rio Grande - FURG.</p>
+<h3 id="autores">Autores</h3>
+<p><em>Adriano S. Zumba, Carlo C. Taglialegna e Reynaldo Assunção</em></p>
+<p><strong>Março de 2021</strong></p>
+<h3 id="resumo">RESUMO</h3>
+<p>Este artigo se destina a propor o desenvolvimento de um assistente virtual 
+(chatbot) que seja capaz de interagir com o contribuinte e direcioná-lo rapidamente 
+ao serviço demandado ou às orientações tributárias necessárias, tendo em vista a
+grande quantidade de serviços ofertados e os diversos canais de atendimento existentes na RFB. 
+O objetivo do chatbot é diminuir a dificuldade encontrada pelos contribuintes quando 
+da demanda por um serviço específico e evitar a navegação desnecessária pelas 
+muitas páginas existentes no site da Receita Federal do Brasil.</p>
+<p><strong>Palavras-chave:</strong> Chatbot; Atendimento; Receita Federal do Brasil.</p>
+<p>Nas seções seguintes serão detalhadas a metodologia e a implementação do aplicativo proposto.</p>
 
               
             </article>
