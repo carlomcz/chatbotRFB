@@ -13,7 +13,7 @@
     
     
       
-        <title>Tratamento - ChatBot para Orientações Tributárias e informação sobre os Serviços da Receita Federal</title>
+        <title>Criando os modelos NLP - ChatBot para Orientações Tributárias e informação sobre os Serviços da Receita Federal</title>
       
     
     
@@ -60,7 +60,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#coleta-e-tratamento-dos-dados" class="md-skip">
+        <a href="#criando-os-modelos-nlp-utilizados-pelo-bot" class="md-skip">
           Skip to content
         </a>
       
@@ -93,7 +93,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Tratamento
+              Criando os modelos NLP
             
           </span>
         </div>
@@ -252,11 +252,95 @@
 
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../criando_modelos/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Criando os modelos NLP
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Criando os modelos NLP
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#criando-os-modelos-nlp-utilizados-pelo-bot" class="md-nav__link">
+    Criando os modelos NLP utilizados pelo Bot
+  </a>
+  
+    <nav class="md-nav" aria-label="Criando os modelos NLP utilizados pelo Bot">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#importando-os-pacotes-gensim" class="md-nav__link">
+    importando os pacotes gensim
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lendo-dados-para-treinamento-servicos-e-conversas-comuns" class="md-nav__link">
+    Lendo dados para treinamento (serviços e conversas comuns)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#modelo-bag-of-wordsbow-criando-um-dicionario-um-corpus-e-um-modelo" class="md-nav__link">
+    Modelo Bag of Words(Bow) - Criando um dicionário, um corpus e um modelo
+  </a>
+  
+    <nav class="md-nav" aria-label="Modelo Bag of Words(Bow) - Criando um dicionário, um corpus e um modelo">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#componentes-do-pipeline-para-criar-o-modelo-codigo-acima" class="md-nav__link">
+    componentes do pipeline para criar o modelo (código acima)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#criando-uma-matriz-de-similaridades" class="md-nav__link">
+    Criando uma matriz de similaridades
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -331,9 +415,56 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#coleta-e-tratamento-dos-dados" class="md-nav__link">
-    Coleta e Tratamento dos Dados
+  <a href="#criando-os-modelos-nlp-utilizados-pelo-bot" class="md-nav__link">
+    Criando os modelos NLP utilizados pelo Bot
   </a>
+  
+    <nav class="md-nav" aria-label="Criando os modelos NLP utilizados pelo Bot">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#importando-os-pacotes-gensim" class="md-nav__link">
+    importando os pacotes gensim
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lendo-dados-para-treinamento-servicos-e-conversas-comuns" class="md-nav__link">
+    Lendo dados para treinamento (serviços e conversas comuns)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#modelo-bag-of-wordsbow-criando-um-dicionario-um-corpus-e-um-modelo" class="md-nav__link">
+    Modelo Bag of Words(Bow) - Criando um dicionário, um corpus e um modelo
+  </a>
+  
+    <nav class="md-nav" aria-label="Modelo Bag of Words(Bow) - Criando um dicionário, um corpus e um modelo">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#componentes-do-pipeline-para-criar-o-modelo-codigo-acima" class="md-nav__link">
+    componentes do pipeline para criar o modelo (código acima)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#criando-uma-matriz-de-similaridades" class="md-nav__link">
+    Criando uma matriz de similaridades
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -350,9 +481,100 @@
               
                 
 
-  <h1>Tratamento</h1>
+  <h1>Criando os modelos NLP</h1>
 
-<h2 id="coleta-e-tratamento-dos-dados">Coleta e Tratamento dos Dados</h2>
+<h3 id="criando-os-modelos-nlp-utilizados-pelo-bot">Criando os modelos NLP utilizados pelo Bot</h3>
+<p><strong>Continuação do  notebook jupyter: 02extrai_palavras_chave.ypnb</strong>:</p>
+<h4 id="importando-os-pacotes-gensim">importando os pacotes gensim</h4>
+<pre><code class="language-python">#!pip install gensim
+import gensim
+import gensim.downloader as api
+from gensim.models import TfidfModel
+from gensim.corpora import Dictionary
+from gensim import similarities
+</code></pre>
+<h4 id="lendo-dados-para-treinamento-servicos-e-conversas-comuns">Lendo dados para treinamento (serviços e conversas comuns)</h4>
+<pre><code class="language-python">#
+df1 = pd.read_excel('./ServicosRfbFinal2.xlsx')
+#
+servicos = []
+for i in range(len(df1)):
+    servicos.append(str(df1.iloc[i][4]))
+ids = [i for i in range(len(df1))]
+dataset1 = pd.DataFrame({'id': ids,'desc': servicos})
+#
+df2 = pd.read_excel('./PerguntasTreinamento2.xlsx')
+#
+conversas = []
+for i in range(len(df2)):
+    conversas.append(str(df2.iloc[i][3]))
+ids = [i for i in range(len(df2))]
+dataset2 = pd.DataFrame({'id': ids,'desc': conversas})
+</code></pre>
+<h3 id="modelo-bag-of-wordsbow-criando-um-dicionario-um-corpus-e-um-modelo">Modelo Bag of Words(Bow) - Criando um dicionário, um corpus e um modelo</h3>
+<pre><code class="language-python"># Transforma a descricao do servico em tokens de palavras
+input_tokens = [d.split() for d in dataset1['desc'].values]
+
+# Criando um dicionario com os textos do dataset
+dct1 = Dictionary(input_tokens)
+
+# Converte corpus para o formato BOW (Bag Of Words)
+corpus1 = [dct1.doc2bow(line) for line in input_tokens]
+
+# Cria um modelo TF-IDF
+model1 = TfidfModel(corpus1)
+#
+# Transforma as conversas de treinamento em tokens de palavras
+input_tokens = [d.split() for d in dataset2['desc'].values]
+
+# Criando um dicionario com os textos do dataset
+dct2 = Dictionary(input_tokens)
+
+# Converte corpus para o formato BOW (Bag Of Words)
+corpus2 = [dct2.doc2bow(line) for line in input_tokens]
+
+# Cria um modelo TF-IDF
+model2 = TfidfModel(corpus2)
+#
+# Salvando os modelos e os dicionários para uso do Chatbot
+#
+dct1.save('dct1')
+model1.save('model1')
+dct2.save('dct2')
+model2.save('model2')
+</code></pre>
+<p><strong>OBSERVAÇÕES</strong></p>
+<h4 id="componentes-do-pipeline-para-criar-o-modelo-codigo-acima">componentes do pipeline para criar o modelo (código acima)</h4>
+<ul>
+<li>
+<p><strong>input_tokens</strong> -&gt; separa as palavras de cada texto;</p>
+</li>
+<li>
+<p><strong>dct</strong> -&gt;  lista cada palavra dos textos em um dicionario;</p>
+</li>
+<li>
+<p><strong>corpus</strong> -&gt; faz um mapeamento de cada texto com os ids do dicionario (id da palavra, quantidade de ocorrencias);</p>
+</li>
+<li>
+<p><strong>model</strong> -&gt; é o transformer responsavel por traduzir o corpus em um TF-IDF</p>
+</li>
+</ul>
+<h4 id="criando-uma-matriz-de-similaridades">Criando uma matriz de similaridades</h4>
+<p>Até aqui fizemos um pipeline que transformou textos em matrizes TF-IDF e agora podemos comparar duas TF-IDFs e verificar sua 
+similaridade. Então iremos criar duas matrizes de similaridade com todos os textos dos Serviços e das conversar comuns, 
+que chamaremos de index1 e index2. Com as matrizes criadas poderemos comparar o texto digitado pelo usuário com os textos
+existentes em nossa base de dados.</p>
+<pre><code class="language-python"># Cria a matriz de similaridade dos Serviços
+index1 = similarities.SparseMatrixSimilarity(model1[corpus1], num_features=len(dct1))
+# Salva a matriz para uso no pipeline principal
+index1.save('index1')
+#
+# Cria a matriz de similaridade das conversas comuns
+index2 = similarities.SparseMatrixSimilarity(model2[corpus2], num_features=len(dct2))
+# Salva a matriz para uso no pipeline principal
+index2.save('index2')
+
+</code></pre>
 
               
             </article>
@@ -362,6 +584,41 @@
       </main>
       
         <footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="../palavras_chave/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Extração das Palavras-chave" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Extração das Palavras-chave
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../extrai_links/" class="md-footer__link md-footer__link--next" aria-label="Next: Extraindo Links das Orientações" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Extraindo Links das Orientações
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">

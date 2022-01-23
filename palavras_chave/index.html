@@ -13,7 +13,7 @@
     
     
       
-        <title>Implementacao - ChatBot para Orientações Tributárias e informação sobre os Serviços da Receita Federal</title>
+        <title>Extração das Palavras-chave - ChatBot para Orientações Tributárias e informação sobre os Serviços da Receita Federal</title>
       
     
     
@@ -60,7 +60,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#implementacao" class="md-skip">
+        <a href="#extracao-das-palavras-chave-dos-servicos" class="md-skip">
           Skip to content
         </a>
       
@@ -93,7 +93,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Implementacao
+              Extração das Palavras-chave
             
           </span>
         </div>
@@ -237,11 +237,123 @@
 
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../palavras_chave/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Extração das Palavras-chave
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Extração das Palavras-chave
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#extracao-das-palavras-chave-dos-servicos" class="md-nav__link">
+    Extração das palavras chave dos serviços
+  </a>
+  
+    <nav class="md-nav" aria-label="Extração das palavras chave dos serviços">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#extraindo-as-sentencas-principais-do-texto-oquee-dos-servicos-rfb" class="md-nav__link">
+    Extraindo as sentenças principais do texto oQueE dos serviços RFB
+  </a>
+  
+    <nav class="md-nav" aria-label="Extraindo as sentenças principais do texto oQueE dos serviços RFB">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#importando-as-bibliotecas" class="md-nav__link">
+    Importando as bibliotecas
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#extracao-das-palavras-chaves-das-informacoes-de-cada-servico" class="md-nav__link">
+    Extração das palavras chaves das informações de cada serviço
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#grava-os-servicos-em-uma-planilha" class="md-nav__link">
+    Grava os serviços em uma planilha
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#carrega-os-dataframes-com-o-conteudo-das-duas-planilhas" class="md-nav__link">
+    Carrega os dataframes com o conteúdo das duas planilhas
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#carrega-bibliotecas-de-nlp-spacy-e-nltk" class="md-nav__link">
+    carrega bibliotecas de NLP, spacy e nltk
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tokenizacao-e-extracao-das-palavras-chave-dos-servicos" class="md-nav__link">
+    Tokenização e extração das palavras chave dos serviços
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#grava-versao-final-da-planilha-de-servicos" class="md-nav__link">
+    Grava versão final da planilha de serviços
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tokenizacao-e-extracao-das-palavras-chaves-das-frases-de-conversas-comuns" class="md-nav__link">
+    Tokenização e extração das palavras chaves das frases de conversas comuns
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -331,69 +443,6 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#implementacao" class="md-nav__link">
-    Implementação
-  </a>
-  
-    <nav class="md-nav" aria-label="Implementação">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#extracaoraspagem-dos-dados" class="md-nav__link">
-    Extração/Raspagem dos Dados
-  </a>
-  
-    <nav class="md-nav" aria-label="Extração/Raspagem dos Dados">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#importacao-das-bibliotecas-python-necessarias" class="md-nav__link">
-    Importação das bibliotecas Python necessárias
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#gerando-uma-lista-com-as-paginas-de-onde-serao-raspados-os-links-dos-servicos" class="md-nav__link">
-    Gerando uma lista com as páginas de onde serão "raspados" os links dos serviços
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#fazendo-o-scraping-das-informacoes-sobre-cada-servico" class="md-nav__link">
-    Fazendo o scraping das informações sobre cada serviço
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#utilizando-a-biblioteca-pandas-para-gravar-os-dados-raspados-em-uma-planilha-excel" class="md-nav__link">
-    Utilizando a biblioteca Pandas para gravar os dados "raspados" em uma planilha excel
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#acessa-cada-link-gravado-anteriormente-para-raspar-o-texto-que-descreve-cada-servico" class="md-nav__link">
-    Acessa cada link gravado anteriormente para "raspar" o texto que descreve cada serviço
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#acrescenta-a-planilha-gravada-o-atributo-com-o-texto-que-descreve-o-servico" class="md-nav__link">
-    Acrescenta a planilha gravada o atributo com o texto que descreve o serviço
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#extracao-das-palavras-chave-dos-servicos" class="md-nav__link">
     Extração das palavras chave dos serviços
   </a>
@@ -458,79 +507,20 @@
   
 </li>
         
-          <li class="md-nav__item">
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#tokenizacao-e-extracao-das-palavras-chaves-das-frases-de-conversas-comuns" class="md-nav__link">
     Tokenização e extração das palavras chaves das frases de conversas comuns
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#criando-os-modelos-nlp-utilizados-pelo-bot" class="md-nav__link">
-    Criando os modelos NLP utilizados pelo Bot
-  </a>
-  
-    <nav class="md-nav" aria-label="Criando os modelos NLP utilizados pelo Bot">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#importando-os-pacotes-gensim" class="md-nav__link">
-    importando os pacotes gensim
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#lendo-dados-para-treinamento-servicos-e-conversas-comuns" class="md-nav__link">
-    Lendo dados para treinamento (serviços e conversas comuns)
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#modelo-bag-of-wordsbow-criando-um-dicionario-um-corpus-e-um-modelo" class="md-nav__link">
-    Modelo Bag of Words(Bow) - Criando um dicionário, um corpus e um modelo
-  </a>
-  
-    <nav class="md-nav" aria-label="Modelo Bag of Words(Bow) - Criando um dicionário, um corpus e um modelo">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#componentes-do-pipeline-para-criar-o-modelo-codigo-acima" class="md-nav__link">
-    componentes do pipeline para criar o modelo (código acima)
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#criando-uma-matriz-de-similaridades" class="md-nav__link">
-    Criando uma matriz de similaridades
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -547,102 +537,8 @@
               
                 
 
-  <h1>Implementacao</h1>
+  <h1>Extração das Palavras-chave</h1>
 
-<h2 id="implementacao">Implementação</h2>
-<h3 id="extracaoraspagem-dos-dados">Extração/Raspagem dos Dados</h3>
-<p>A coleta dos dados foi realizada através de código desenvolvido em Python e executados no Jupyter Notebook,
-em um notebook de nome 01raspa_servicos.ypnb.</p>
-<p>Abaixo mostraremos o código com comentários explicando a lógica.</p>
-<h4 id="importacao-das-bibliotecas-python-necessarias">Importação das bibliotecas Python necessárias</h4>
-<pre><code class="language-python">#IMPORTANDO AS BIBLIOTECAS NECESSÁRIAS
-from bs4 import BeautifulSoup
-import time
-import requests
-import urllib
-# importanto a biblioteca pandas
-import pandas as pd
-from urllib.request import urlopen
-#
-</code></pre>
-<p>A biblioteca BeautifulSoup é que foi utilizada para fazer o Web Scraping(raspagem dos dados).</p>
-<h4 id="gerando-uma-lista-com-as-paginas-de-onde-serao-raspados-os-links-dos-servicos">Gerando uma lista com as páginas de onde serão "raspados" os links dos serviços</h4>
-<pre><code class="language-python">#
-#página base de onde serão extraídos os links para os serviços da RFB no .gov
-base1 = 'https://www.gov.br/pt-br/orgaos/secretaria-especial-da-receita-federal-do-brasil?b_start:int='
-#página base de onde serão extraídos os links para os serviços da PGFN no .gov
-base2 = 'https://www.gov.br/pt-br/orgaos/procuradoria-geral-da-fazenda-nacional?b_start:int='
-# gerando lista com as páginas de onde serão extraídos os links para cada serviço existente para os dois órgãos,  RFB e PGFN
-lista_pgs = []
-y = 0
-for i in range(6): # seis páginas com links de serviços da RFB
-    if i &gt; 0:
-        y = y + 30
-    lista_pgs.append(base1 + str(y))
-y = 0
-for i in range(2): # duas páginas com links de serviços da PGFN
-    if i &gt; 0:
-        y = y + 30
-    lista_pgs.append(base2 + str(y))
-#
-</code></pre>
-<h4 id="fazendo-o-scraping-das-informacoes-sobre-cada-servico">Fazendo o scraping das informações sobre cada serviço</h4>
-<pre><code class="language-python"># para cada link na lista dos serviços, faz o Scraping (raspagem) dos títulos e links de cada serviço
-l_lnk = [] # lista para armazenar os links de cada serviço
-l_titulo = [] # lista para armazenas o titulo do serviço
-#
-for i in lista_pgs: # loop que itera sobre cada página de onde serão extraídos os links dos serviços
-    try:
-        html = urlopen(i) # acessa a página que contem os links
-        bs = BeautifulSoup(html, 'html.parser') # cria o objeto BeautifulSoup com o conteúdo da página
-        pg = bs.find('ul', class_='listagem') # encontra a 'tag' &lt;ul&gt; , com classe listagem, que contem os links dos serviços
-        itens = pg.find_all('li', class_='item') # encontra a 'tag ' &lt;li&gt; , com classe item, onde está cada link ('tag' &lt;a&gt;)
-        for j in itens: # loop sobre cada item, para extrair o título, o link e a categoria de cada serviço
-            ln1 = j.find('a') # 'tag' &lt;a&gt; que contem o link de cada serviço
-            titx = ln1['title'] # atributo 'título' do serviço
-            lnx = ln1['href'] # atributo 'href' do serviço (link)
-            l_titulo.append(titx) # acrescenta o título do serviço a lista
-            l_lnk.append(lnx) # acrescenta o link para o serviço a lista
-    except: #se houver erro não interrompe o programa
-        pass
-</code></pre>
-<h4 id="utilizando-a-biblioteca-pandas-para-gravar-os-dados-raspados-em-uma-planilha-excel">Utilizando a biblioteca Pandas para gravar os dados "raspados" em uma planilha excel</h4>
-<pre><code class="language-python"># grava uma planilha excel com os titulos e os links para cada serviço, que serão utilizados para acessar
-# cada página do serviço e fazer a &quot;raspagem&quot; da descrição do serviço
-dfx = pd.DataFrame({'Servico': l_titulo ,'Link': l_lnk})
-dfx.to_excel('./ServicosRFBePGFN.xlsx', index = False)
-</code></pre>
-<h4 id="acessa-cada-link-gravado-anteriormente-para-raspar-o-texto-que-descreve-cada-servico">Acessa cada link gravado anteriormente para "raspar" o texto que descreve cada serviço</h4>
-<pre><code class="language-python"># código que irá acessar cada link do serviço para fazer a &quot;raspagem&quot; da texto que descreve o serviço
-links = dfx['Link'] # lista com os links
-oques = [] # lista onde será armazenada a descrição e cada um dos serviços
-for i in range(len(links)): # itera sobre cada link e acessa a página do serviço
-    try: 
-        if i &lt; 0: # teste para fazer a raspagem a partir de um item da lista, com 'zero' raspa todos os itens
-            print(&quot;#&quot;, i)
-            continue
-        html = urlopen(str(links[i])) # acessa a página do serviço
-        print(&quot;#&quot;, i) # imprime o nr. do item e o link, apenas para visualizar como está o processamento
-    except:
-        continue
-    bs = BeautifulSoup(html, 'html.parser') # cria o objeto BeautifulSoup da página
-    print(links[i])
-    div_que = bs.find('div', class_='conteudo') # procura a 'tag' &lt;div&gt; onde está a descrição do serviço
-    texto = div_que.text # texto com a descrição de cada serviço
-    oques.append(texto) # adiciona a descrição do serviço a lista
-    time.sleep(3) # tempo de espera para não sobrecarregar o servidor .gov 
-##
-</code></pre>
-<h4 id="acrescenta-a-planilha-gravada-o-atributo-com-o-texto-que-descreve-o-servico">Acrescenta a planilha gravada o atributo com o texto que descreve o serviço</h4>
-<pre><code class="language-python"># 
-# acrescenta a planilha criada anteriormente o atributo que descreve o serviço
-dfx['oQue'] = oques
-#
-#Salvando a planilha
-#
-dfx.to_excel('./ServicosRFBePGFN_Final.xlsx', index = False)
-#
-</code></pre>
 <h3 id="extracao-das-palavras-chave-dos-servicos">Extração das palavras chave dos serviços</h3>
 <p><strong>Nome do notebook jupyter: 02extrai_palavras_chave.ypnb</strong>:</p>
 <h4 id="extraindo-as-sentencas-principais-do-texto-oquee-dos-servicos-rfb">Extraindo as sentenças principais do texto oQueE dos serviços RFB</h4>
@@ -782,8 +678,8 @@ print(&quot;#### fim tokenização dos serviços ####&quot;)
 <pre><code class="language-python"># grava as palavras chave na planilha de serviços
 df1.to_excel('./ServicosRfbFinal2.xlsx', index = False)
 </code></pre>
-<h5 id="tokenizacao-e-extracao-das-palavras-chaves-das-frases-de-conversas-comuns">Tokenização e extração das palavras chaves das frases de conversas comuns</h5>
-<pre><code class="language-python">print(&quot;*** inicio tokenização das conversas ***&quot;)
+<h3 id="tokenizacao-e-extracao-das-palavras-chaves-das-frases-de-conversas-comuns">Tokenização e extração das palavras chaves das frases de conversas comuns</h3>
+<pre><code class="language-python">print(&quot;### inicio tokenização das conversas ###&quot;)
 # cria planilha com as palavras chave dos serviços
 plvx1 = []
 # loop para percorrer o dataframe e extrair as palavras chave
@@ -797,98 +693,7 @@ for j in range(len(df2)):
 # acrescenta coluna com as palavras chave ao dataframe
 df2['chaves_serv'] = plvx1
 #
-print(&quot;#### fim tokenização das conversas ####&quot;)
-</code></pre>
-<h3 id="criando-os-modelos-nlp-utilizados-pelo-bot">Criando os modelos NLP utilizados pelo Bot</h3>
-<p><strong>Continuação do  notebook jupyter: 02extrai_palavras_chave.ypnb</strong>:</p>
-<h4 id="importando-os-pacotes-gensim">importando os pacotes gensim</h4>
-<pre><code class="language-python">#!pip install gensim
-import gensim
-import gensim.downloader as api
-from gensim.models import TfidfModel
-from gensim.corpora import Dictionary
-from gensim import similarities
-</code></pre>
-<h4 id="lendo-dados-para-treinamento-servicos-e-conversas-comuns">Lendo dados para treinamento (serviços e conversas comuns)</h4>
-<pre><code class="language-python">#
-df1 = pd.read_excel('./ServicosRfbFinal2.xlsx')
-#
-servicos = []
-for i in range(len(df1)):
-    servicos.append(str(df1.iloc[i][4]))
-ids = [i for i in range(len(df1))]
-dataset1 = pd.DataFrame({'id': ids,'desc': servicos})
-#
-df2 = pd.read_excel('./PerguntasTreinamento2.xlsx')
-#
-conversas = []
-for i in range(len(df2)):
-    conversas.append(str(df2.iloc[i][3]))
-ids = [i for i in range(len(df2))]
-dataset2 = pd.DataFrame({'id': ids,'desc': conversas})
-</code></pre>
-<h3 id="modelo-bag-of-wordsbow-criando-um-dicionario-um-corpus-e-um-modelo">Modelo Bag of Words(Bow) - Criando um dicionário, um corpus e um modelo</h3>
-<pre><code class="language-python"># Transforma a descricao do servico em tokens de palavras
-input_tokens = [d.split() for d in dataset1['desc'].values]
-
-# Criando um dicionario com os textos do dataset
-dct1 = Dictionary(input_tokens)
-
-# Converte corpus para o formato BOW (Bag Of Words)
-corpus1 = [dct1.doc2bow(line) for line in input_tokens]
-
-# Cria um modelo TF-IDF
-model1 = TfidfModel(corpus1)
-#
-# Transforma as conversas de treinamento em tokens de palavras
-input_tokens = [d.split() for d in dataset2['desc'].values]
-
-# Criando um dicionario com os textos do dataset
-dct2 = Dictionary(input_tokens)
-
-# Converte corpus para o formato BOW (Bag Of Words)
-corpus2 = [dct2.doc2bow(line) for line in input_tokens]
-
-# Cria um modelo TF-IDF
-model2 = TfidfModel(corpus2)
-#
-# Salvando os modelos e os dicionários para uso do Chatbot
-#
-dct1.save('dct1')
-model1.save('model1')
-dct2.save('dct2')
-model2.save('model2')
-</code></pre>
-<p><strong>OBSERVAÇÕES</strong></p>
-<h4 id="componentes-do-pipeline-para-criar-o-modelo-codigo-acima">componentes do pipeline para criar o modelo (código acima)</h4>
-<ul>
-<li>
-<p><strong>input_tokens</strong> -&gt; separa as palavras de cada texto;</p>
-</li>
-<li>
-<p><strong>dct</strong> -&gt;  lista cada palavra dos textos em um dicionario;</p>
-</li>
-<li>
-<p><strong>corpus</strong> -&gt; faz um mapeamento de cada texto com os ids do dicionario (id da palavra, quantidade de ocorrencias);</p>
-</li>
-<li>
-<p><strong>model</strong> -&gt; é o transformer responsavel por traduzir o corpus em um TF-IDF</p>
-</li>
-</ul>
-<h4 id="criando-uma-matriz-de-similaridades">Criando uma matriz de similaridades</h4>
-<p>Até aqui fizemos um pipeline que transformou textos em matrizes TF-IDF e agora podemos comparar duas TF-IDFs e verificar sua 
-similaridade. Então iremos criar duas matrizes de similaridade com todos os textos dos Serviços e das conversar comuns, 
-que chamaremos de index1 e index2. Com as matrizes criadas poderemos comparar o texto digitado pelo usuário com os textos
-existentes em nossa base de dados.</p>
-<pre><code class="language-python"># Cria a matriz de similaridade dos Serviços
-index1 = similarities.SparseMatrixSimilarity(model1[corpus1], num_features=len(dct1))
-# Salva a matriz para uso no pipeline principal
-index1.save('index1')
-#
-# Cria a matriz de similaridade das conversas comuns
-index2 = similarities.SparseMatrixSimilarity(model2[corpus2], num_features=len(dct2))
-# Salva a matriz para uso no pipeline principal
-index2.save('index2')
+print(&quot;### fim tokenização das conversas ###&quot;)
 
 </code></pre>
 
@@ -900,6 +705,41 @@ index2.save('index2')
       </main>
       
         <footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="../raspagem/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Extração dos Textos" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Extração dos Textos
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../criando_modelos/" class="md-footer__link md-footer__link--next" aria-label="Next: Criando os modelos NLP" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Criando os modelos NLP
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
