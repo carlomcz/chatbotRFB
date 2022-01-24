@@ -832,8 +832,9 @@ def get_bot_response(): #
             xlog = hora_min+&quot;#bot#&quot;+text_xx+&quot;\n&quot;
             grava_log(xlog,nomarq)
             cont_res = cont_res + 1 #incrementa contador de respostas válidas
-
-    if cont_res == 0: # sem resposta satisfatória
+</code></pre>
+<p><strong>Testando se achou alguma resposta e enviando o retorno para o usuário(conteúdo da variável "ret"</strong></p>
+<pre><code class="language-python">    if cont_res == 0: # sem resposta satisfatória
         ret = &quot;&lt;p&gt;&lt;b&gt;Desculpe, ainda estou aprendendo e não encontrei uma Resposta!!! Você pode escolher outra opção ou reformular a sua dúvida?&lt;/b&gt;&lt;/p&gt;&quot;
 
     # texto da mensagem inicial
