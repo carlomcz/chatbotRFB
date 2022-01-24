@@ -318,6 +318,61 @@
     Aplicativo Web
   </a>
   
+    <nav class="md-nav" aria-label="Aplicativo Web">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#importando-as-bibliotecas" class="md-nav__link">
+    Importando as bibliotecas
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configurando-diretorio-do-aplicativo-e-nomes-das-planilhas-com-os-textos" class="md-nav__link">
+    Configurando diretório do aplicativo e nomes das planilhas com os textos
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#carregando-os-textos-das-planilhas-para-os-dataframes" class="md-nav__link">
+    Carregando os textos das planilhas para os DataFrames
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#carregando-os-arquivos-dos-dicionarios-dos-modelos-e-dos-indices-de-similaridade" class="md-nav__link">
+    Carregando os arquivos dos dicionários, dos modelos e dos índices de similaridade
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#definicao-das-funcoes-utilizadas-pelo-chatbot" class="md-nav__link">
+    Definição das funções utilizadas pelo chatbot
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#define-nome-do-arquivo-de-log-das-perguntas-e-respostas" class="md-nav__link">
+    Define nome do arquivo de log das perguntas e respostas
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#codigo-do-aplicativo-propriamente-dito" class="md-nav__link">
+    Código do Aplicativo propriamente dito
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -357,6 +412,61 @@
     Aplicativo Web
   </a>
   
+    <nav class="md-nav" aria-label="Aplicativo Web">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#importando-as-bibliotecas" class="md-nav__link">
+    Importando as bibliotecas
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configurando-diretorio-do-aplicativo-e-nomes-das-planilhas-com-os-textos" class="md-nav__link">
+    Configurando diretório do aplicativo e nomes das planilhas com os textos
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#carregando-os-textos-das-planilhas-para-os-dataframes" class="md-nav__link">
+    Carregando os textos das planilhas para os DataFrames
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#carregando-os-arquivos-dos-dicionarios-dos-modelos-e-dos-indices-de-similaridade" class="md-nav__link">
+    Carregando os arquivos dos dicionários, dos modelos e dos índices de similaridade
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#definicao-das-funcoes-utilizadas-pelo-chatbot" class="md-nav__link">
+    Definição das funções utilizadas pelo chatbot
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#define-nome-do-arquivo-de-log-das-perguntas-e-respostas" class="md-nav__link">
+    Define nome do arquivo de log das perguntas e respostas
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#codigo-do-aplicativo-propriamente-dito" class="md-nav__link">
+    Código do Aplicativo propriamente dito
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -375,6 +485,380 @@
   <h1>Aplicativo Web</h1>
 
 <h2 id="aplicativo-web">Aplicativo Web</h2>
+<p>O aplicativo que desenvolvemos para interagir com o usuário e responder a suas perguntas, foi escrito em linguagem python, utilizando-se o 
+framework Flask, e atualmente encontra-se hospedado no site <strong>pythonanywhere.com</strong> , no endereço web <em>carlomcz.pythonanywhere.com.</em></p>
+<h3 id="importando-as-bibliotecas">Importando as bibliotecas</h3>
+<pre><code class="language-python">
+#IMPORTANDO AS BIBLIOTECAS NECESSÁRIAS
+import re
+import pandas as pd
+import os
+from flask import Flask, render_template, request, jsonify
+import spacy
+import pt_core_news_md
+nlp = pt_core_news_md.load()
+from datetime import datetime
+import nltk
+from nltk.stem import RSLPStemmer
+from nltk.tokenize import sent_tokenize, word_tokenize
+nltk.download('rslp')
+ste = nltk.stem.RSLPStemmer()
+import gensim
+import gensim.downloader as api
+from gensim.models import TfidfModel
+from gensim.corpora import Dictionary
+from gensim import similarities
+
+</code></pre>
+<h3 id="configurando-diretorio-do-aplicativo-e-nomes-das-planilhas-com-os-textos">Configurando diretório do aplicativo e nomes das planilhas com os textos</h3>
+<pre><code class="language-python">#configurando o diretório do app e o nome das planilhas com os textos
+dir_app = '/home/carlomcz/leonino/' #diretório onde fica o app
+plan_app1 = 'ServicosRfbFinal2.xlsx' # nome da planilha com os servicos
+plan_app2 = 'PerguntasTreinamento2.xlsx' # nome da planilha com as conversas comuns de treinamento
+plan_app3 = '0_Perguntas_orientacoes_Final2.xlsx' # nome da planilha com as respostas das orientacoes tributarias de assuntos selecionados
+
+</code></pre>
+<h3 id="carregando-os-textos-das-planilhas-para-os-dataframes">Carregando os textos das planilhas para os DataFrames</h3>
+<pre><code class="language-python"># carrega planilha com as perguntas e respostas dos Serviços
+df1 = pd.read_excel(dir_app + plan_app1,engine='openpyxl') 
+#
+# carrega planilha com as perguntas e respostas de conversa do dia a dia
+df2 = pd.read_excel(dir_app + plan_app2,engine='openpyxl') 
+#
+# carrega planilha com as perguntas e respostas das Orientações Tributárias
+df3 = pd.read_excel(dir_app + plan_app3,engine='openpyxl') 
+#
+</code></pre>
+<h3 id="carregando-os-arquivos-dos-dicionarios-dos-modelos-e-dos-indices-de-similaridade">Carregando os arquivos dos dicionários, dos modelos e dos índices de similaridade</h3>
+<pre><code class="language-python">#carregandos o modelo treinado com os serviços
+dct_loaded1 = Dictionary.load('dct1')
+model_loaded1 = TfidfModel.load('model1')
+index_loaded1 = similarities.Similarity.load('index1')
+
+#carregandos o modelo treinado com as conversas comuns
+dct_loaded2 = Dictionary.load('dct2')
+model_loaded2 = TfidfModel.load('model2')
+index_loaded2 = similarities.Similarity.load('index2')
+
+#carregandos o modelo treinado com as perguntas do perdcomp
+dct_loaded3= Dictionary.load('dct3')
+model_loaded3 = TfidfModel.load('model3')
+index_loaded3 = similarities.Similarity.load('index3')
+</code></pre>
+<h3 id="definicao-das-funcoes-utilizadas-pelo-chatbot">Definição das funções utilizadas pelo chatbot</h3>
+<pre><code class="language-python">#
+# funções utilizadas pelo bot
+#
+
+def troca_acentos(txt): #retira os caracteres acentuados e substitui por caracteres sem acentos
+  transTable = txt.maketrans(&quot;áàãéêíóôõúÁÃÃÉÊÍÓÔÕÚçÇ&quot;, &quot;aaaeeiooouaaaeeioooucc&quot;)
+  txt = txt.translate(transTable)
+  return str(txt)
+#
+#
+# função que tokeniza as palavras
+#
+def tokenizar(texto): 
+#
+    car_nok = ['SPACE', 'DET','ADP', 'CCONJ','PUNCT','PRON','SCONJ']
+    txx = texto
+    docxx = nlp(txx)
+    txx_lemma = [(token.text,token.orth_, token.lemma_, token.pos_) for token in docxx]
+    pal_xx = ''
+    plvxx = &quot;&quot;
+    for i in txx_lemma:
+        if i[3] not in car_nok:
+            plvxx = plvxx + ste.stem(i[0]) + ' '
+    plvxx = plvxx.strip()
+    plvxx = troca_acentos(plvxx)
+    return plvxx
+# fim funcao tokenizar
+#
+
+# função para limpar o texto
+def limpa_texto(txt_a_limpar):
+
+    txt_ok = txt_a_limpar.lower()
+    txt_ok = txt_ok.strip()
+    return txt_ok
+#
+# fim da funcao limpa_texto
+#
+
+
+#
+# função que gravará as entradas do usuários e as respostas do chatbot, para análise
+#
+def grava_log(textos, nomearq):
+    with open(nomearq.strip(),&quot;a+&quot;) as arquivo:
+        arquivo.write(textos)
+#
+#fim da função grava_conversa
+#
+
+#
+# função que faz busca no site da RFB
+#
+def buscaSiteRfb(txt):
+    texto1 = '&lt;div class=&quot;tit1&quot;&gt;&lt;p&gt;Para fazer uma pesquisa no site da Receita, basta clicar no link:&lt;/p&gt;&lt;/div&gt;'
+    a_url = &quot;https://www.gov.br/receitafederal/pt-br/search?SearchableText=&quot;
+    #a_url = &quot;https://www.gov.br/receitafederal/pt-br/search&quot;
+    xt = str(txt).strip()
+    volta = texto1 + '&lt;p&gt;&lt;a href=&quot;' +  a_url + xt + '&quot; target=&quot;_blank&quot;&gt;Clique para pesquisar&lt;/a&gt;&lt;/p&gt;'
+    #volta = texto1 + '&lt;a href=&quot;' +  a_url+xt + '&quot; target=&quot;_blank&quot;&gt;Clique para pesquisar&lt;/a&gt;'
+
+    return str(volta)
+
+#
+# função que busca no site da RFB pelo Google
+#
+def buscaGoogle(txt):
+    texto1 = '&lt;div class=&quot;tit1&quot;&gt;&lt;p&gt;Para fazer uma pesquisa no site da Receita com o Google, basta clicar no link:&lt;/p&gt;&lt;/div&gt;'
+    a_url = 'https://www.google.com/search?q='
+    site_pesq = 'site:https://www.gov.br/receitafederal/pt-br'
+    xt = str(txt).strip()
+    volta = texto1 + '&lt;p&gt;&lt;a href=&quot;' +  a_url + xt +' ' + site_pesq + '&quot; target=&quot;_blank&quot;&gt;Clique para pesquisar&lt;/a&gt;&lt;/p&gt;'
+
+    return str(volta)
+#
+
+
+#
+# funçao que calcula a similaridade do texto digitado com os serviços
+#
+def similaridade_servico(texto):
+
+    # Carregando as dependencias do modelo 1
+    dct_loaded1 = Dictionary.load('dct1')
+    model_loaded1 = TfidfModel.load('model1')
+    index_loaded1 = similarities.Similarity.load('index1')
+
+    # Criando um texto de exemplo e tokenizando 1
+    novo_texto_tokens = texto
+    novo_texto_tokens = novo_texto_tokens.split()
+
+    # Converte corpus para o formato BOW (Bag Of Words)
+    novo_texto_corpus = dct_loaded1.doc2bow(novo_texto_tokens)
+
+    # Buscando a similaridade
+    sim = index_loaded1[model_loaded1[novo_texto_corpus]]
+
+    #
+    dfx1 = pd.DataFrame()
+    dfx1['srv'] = df1['Servico']
+    dfx1['lnk'] = df1['Link']
+    dfx1['oQue'] = df1['oQue']
+    dfx1['sim'] = sim
+    #dfx1['Cat'] = df1['Categoria']
+    dfx1 = dfx1.sort_values(by=['sim'], ascending=False)
+    volta = &quot;&quot;
+    for y in range(5):
+        volta = volta + 'Serviço:' + dfx1.iloc[y][0] + &quot;|Similaridade:&quot; +  str(dfx1.iloc[y][3]) + '|Link:' + dfx1.iloc[y][1] + '&lt;p&gt;'
+    return dfx1
+
+#
+# funçao que calcula a similaridade do texto digitado com as conversas comuns
+#
+
+def similaridade_conversa(texto):
+
+    # Carregando as dependencias do modelo 1
+    dct_loaded2 = Dictionary.load('dct2')
+    model_loaded2 = TfidfModel.load('model2')
+    index_loaded2 = similarities.Similarity.load('index2')
+
+    # Criando um texto de exemplo e tokenizando 1
+    novo_texto_tokens = texto
+    novo_texto_tokens = novo_texto_tokens.split()
+
+    # Converte corpus para o formato BOW (Bag Of Words)
+    novo_texto_corpus = dct_loaded2.doc2bow(novo_texto_tokens)
+
+    # Buscando a similaridade
+    sim = index_loaded2[model_loaded2[novo_texto_corpus]]
+
+    #
+    dfx2 = pd.DataFrame()
+    dfx2['msg'] = df2['Pergunta']
+    dfx2['resp'] = df2['Resposta']
+    dfx2['sim'] = sim
+    dfx2 = dfx2.sort_values(by=['sim'], ascending=False)
+    volta = &quot;&quot;
+    for y in range(3):
+        volta = volta + 'Msg:' +  dfx2.iloc[y][0]+ '|Resposta:' +  dfx2.iloc[y][1] + &quot;|Similaridade:&quot; +  str(dfx2.iloc[y][2]) + '&lt;p&gt;'
+    return dfx2
+
+#
+# funçao que calcula a similaridade do texto digitado com as orientações tributárias
+#
+
+def similaridade_orientacoes(texto):
+
+    # Carregando as dependencias do modelo 1
+    dct_loaded3 = Dictionary.load('dct3')
+    model_loaded3 = TfidfModel.load('model3')
+    index_loaded3 = similarities.Similarity.load('index3')
+
+    # Criando um texto de exemplo e tokenizando 1
+    novo_texto_tokens = texto
+    novo_texto_tokens = novo_texto_tokens.split()
+
+    # Converte corpus para o formato BOW (Bag Of Words)
+    novo_texto_corpus = dct_loaded3.doc2bow(novo_texto_tokens)
+
+    # Buscando a similaridade
+    sim = index_loaded3[model_loaded3[novo_texto_corpus]]
+    dfx3 = pd.DataFrame()
+    dfx3['Assunto'] = df3['Assunto']
+    dfx3['Link'] = df3['Link']
+    dfx3['sim'] = sim
+    dfx3 = dfx3.sort_values(by=['sim'], ascending=False)
+
+    return dfx3
+
+#
+</code></pre>
+<h3 id="define-nome-do-arquivo-de-log-das-perguntas-e-respostas">Define nome do arquivo de log das perguntas e respostas</h3>
+<pre><code class="language-python">
+# nome do arquivo de log das conversas que será gravado para análise da acurácia do bot
+nomarq = datetime.today().strftime('%B_%d_%Y_%H_%M')+&quot;.txt&quot;
+</code></pre>
+<h3 id="codigo-do-aplicativo-propriamente-dito">Código do Aplicativo propriamente dito</h3>
+<pre><code class="language-python"># início do app flask
+app = Flask(__name__)
+
+#configura o nome da pasta onde estará o html estático
+app.static_folder = 'static'
+
+#adiciona rota principal &quot;/&quot;
+@app.route(&quot;/&quot;)
+def home():
+    return render_template(&quot;index.html&quot;) #template que será renderizado pelo Flask
+</code></pre>
+<p><strong>interação do bot com o usuário</strong></p>
+<pre><code class="language-python">
+# adiciona rota que coleta o texto digitado pelo usuário
+@app.route(&quot;/get&quot;)
+def get_bot_response(): #
+    # variáveis iniciais
+    hora_min = datetime.today().strftime('%H:%M') # recebe a hora atual
+    userText = request.args.get('msg') # recebe o texto digitado pelo usuário
+    userText = userText.lower() # converte o texto para letras minúsculas
+    antigo = userText #guarda último texto digitado pelo usuário
+
+    cont_res = 0 # contador que indica se houve pelo menos uma resposta satisfatória do Bot
+
+    # armazena o texto do log na variável xlog
+    if userText[0] != '#': # usuário NÃO quer fazer busca no site 
+        xlog = str(hora_min)+&quot;#usuario#&quot;+str(userText)+&quot;\n&quot;
+    else:
+        xlog = str(hora_min)+&quot;#usuario#PesquisaRFB:&quot;+str(userText[1:])+&quot;\n&quot; # usuário quer fazer a busca no site 
+
+
+    grava_log(xlog,nomarq) # chama função para gravar o log da conversa
+</code></pre>
+<p><strong>Usuário digita "?" antes do texto e quer informações sobre o Serviço</strong></p>
+<pre><code class="language-python">
+    if userText[0] == &quot;?&quot;:#quer informação sobre o serviço
+        ret = &quot;&quot; #inicia texto da mensagem de retorno
+        txt_token = tokenizar(limpa_texto(str(userText))) #tokeniza texto digitado pelo usuário
+        ret= ret + '&lt;div class=&quot;tit1&quot;&gt;&lt;p&gt;Fiz uma pesquisa para encontrar orientação que possa lhe ajudar!...&lt;/p&gt;&lt;/div&gt;'
+        # chama a funcão que calcula a similaridade utilizando o gensim
+        resposta_bot = similaridade_servico(txt_token)
+        ret = ret + '&lt;div class=&quot;tit1&quot;&gt;&lt;p&gt;Estes são os serviços mais relevantes que encontrei:&lt;/p&gt;&lt;/div&gt;'
+
+        # loop que monta o texto com as respostas encontradas conforme parãmetros definidos aqui
+        for i in range(5): 
+            if resposta_bot.iloc[i][3] &gt; 0.3: #similaridade com o serviço &gt; 0.3
+                text_x = '&lt;div class=&quot;item1&quot;&gt;&lt;a href=' +  resposta_bot.iloc[i][1] + ' target=&quot;_blank&quot;&gt;' + resposta_bot.iloc[i][0] + '&lt;/a&gt;'
+                text_x = text_x + &quot;&lt;div&gt;&quot; + resposta_bot.iloc[i][2] + &quot;&lt;/div&gt;&lt;/div&gt;&quot;
+                text_xx = &quot;serviço:&quot;+resposta_bot.iloc[i][0]+&quot;|similaridade:&quot;+str(resposta_bot.iloc[i][3])+&quot;|Link:&quot;+str(resposta_bot.iloc[i][1])
+                ret = ret + text_x
+                #grava log da resposta enviada
+                xlog = hora_min+&quot;#bot#&quot;+text_xx+&quot;\n&quot;
+                grava_log(xlog,nomarq)
+
+                cont_res = cont_res + 1 #incrementa contador de respostas válidas
+#
+</code></pre>
+<p><strong>Usuário digita "#" antes do texto e quer fazer busca no site da Receita</strong></p>
+<pre><code class="language-python">    elif userText[0] == &quot;#&quot;: #pesquisa
+        ret = '&lt;div class=&quot;tit1&quot;&gt;&lt;p&gt;Então vou te enviar para uma busca no site da Receita:&lt;/p&gt;&lt;/div&gt;'
+        #respo = buscaSiteRfb(userText[1:])
+        respo = buscaGoogle(userText[1:]) #encaminha usuário para a busca com o texto digitado
+        ret = ret + respo
+        cont_res = cont_res + 1 #incrementa contador de respostas válidas
+#
+</code></pre>
+<p><strong>Usuário digita "=" antes do texto e quer orientações tributárias</strong></p>
+<pre><code class="language-python">    elif userText[0] == &quot;=&quot;: # quer orientações tributárias
+        ret = &quot;&quot; #inicia texto da mensagem de retorno
+        txt_token = tokenizar(limpa_texto(str(userText))) #tokeniza o texto
+        ret= ret + '&lt;div class=&quot;tit1&quot;&gt;&lt;p&gt;Fiz uma pesquisa para encontrar orientação que possa lhe ajudar!...&lt;/p&gt;&lt;/div&gt;'
+        # chama a funcão que calcula a similaridade utilizando o gensim
+        resposta_bot = similaridade_orientacoes(txt_token)
+        ret = ret + '&lt;div class=&quot;tit1&quot;&gt;&lt;p&gt;Estas são as melhores respostas que encontrei:&lt;/p&gt;&lt;/div&gt;'
+
+        # loop que monta o texto com as respostas encontradas conforme parãmetros definidos aqui
+        for i in range(5):
+            if resposta_bot.iloc[i][2] &gt; 0.20:
+                l_tit = resposta_bot.iloc[i][1].split(&quot;/&quot;)
+                l_tit = l_tit[7:len(l_tit)-1]
+                s_tit = &quot; / &quot;.join([str(x) for x in l_tit])
+                text_x = '&lt;div class=&quot;item1&quot;&gt;&lt;p&gt;&lt;b&gt;'+ s_tit + &quot; / &quot; + resposta_bot.iloc[i][0]  + '&lt;/b&gt; , para mais informações &lt;a href=' +  resposta_bot.iloc[i][1] + ' target=&quot;_blank&quot;&gt;Clique aqui&lt;/a&gt;&lt;/p&gt;&lt;/div&gt;'
+                text_xx = &quot;Msg:&quot; + userText + &quot;|Assunto:&quot;+resposta_bot.iloc[i][0] +&quot; - Link:&quot;+resposta_bot.iloc[i][1] +&quot;|similaridade:&quot;+str(resposta_bot.iloc[i][2])
+                ret = ret + text_x
+
+                # grava log da resposta enviada
+                xlog = hora_min+&quot;#bot#&quot;+text_xx+&quot;\n&quot;
+                grava_log(xlog,nomarq)
+
+                cont_res = cont_res + 1 #incrementa contador de respostas válidas
+#
+</code></pre>
+<p><strong>Usuário quer conversar normalmente (bom dia, boa tarde, etc.)</strong></p>
+<pre><code class="language-python">    else: # mensagem normal/bate papo
+        ret = &quot;&quot;
+        txt_token = tokenizar(limpa_texto(str(userText)))
+        resposta_bot = similaridade_conversa(txt_token)
+
+        # no caso de conversa comum busca apenas a resposta com maior similaridade
+        if resposta_bot.iloc[0][2] &gt; 0.4: #similaridade com a mensagem digitada pelo usuário
+            text_x = '&lt;div class=&quot;item1&quot;&gt;' +  resposta_bot.iloc[0][1] + &quot;&lt;/div&gt;&quot;
+            text_xx = &quot;msg:&quot; + resposta_bot.iloc[0][0] + &quot;|Resposta:&quot; + resposta_bot.iloc[0][1] + &quot;|Similaridade:&quot; + str(resposta_bot.iloc[0][2])
+            ret = ret + text_x
+
+            # grava log da conversa
+            xlog = hora_min+&quot;#bot#&quot;+text_xx+&quot;\n&quot;
+            grava_log(xlog,nomarq)
+            cont_res = cont_res + 1 #incrementa contador de respostas válidas
+
+    if cont_res == 0: # sem resposta satisfatória
+        ret = &quot;&lt;p&gt;&lt;b&gt;Desculpe, ainda estou aprendendo e não encontrei uma Resposta!!! Você pode escolher outra opção ou reformular a sua dúvida?&lt;/b&gt;&lt;/p&gt;&quot;
+
+    # texto da mensagem inicial
+    msg_ini = '&lt;hr /&gt;=============================================&lt;hr /&gt;&lt;strong&gt;Olá!!!&lt;/strong&gt;'
+    msg_ini = msg_ini + '&lt;div&gt;&lt;p&gt;Digite a sua mensagem ou então digite  uma frase com a sua dúvida antecedida por um dos seguintes caracteres:&lt;/p&gt;'
+    msg_ini = msg_ini + '&lt;p&gt;&lt;b&gt;&lt;i&gt;?&lt;/i&gt;&lt;/b&gt;,  se a dúvida for sobre um serviço prestado pela RFB;&lt;/p&gt;'
+    msg_ini = msg_ini + '&lt;p&gt;&lt;b&gt;&lt;i&gt;=&lt;/i&gt;&lt;/b&gt;,  se desejar outras orientações tributárias sobre outros assuntos(pagamentos, parcelamentos, declarações, restituição, compensação);&lt;/p&gt;'
+    msg_ini = msg_ini + '&lt;p&gt;&lt;b&gt;&lt;i&gt;#&lt;/i&gt;&lt;/b&gt;,  para que façamos uma pesquisa no site RFB sobre a sua dúvida!&lt;/p&gt;&lt;/div&gt;'
+
+    ret = ret + msg_ini
+
+    # após montar o texto de resposta na variável &quot;ret&quot;, envia a resposta para o usuário
+    return ret 
+#
+</code></pre>
+<p><strong>Rodando o aplicativo na porta 5000</strong></p>
+<pre><code class="language-python">
+# rodando o aplicativo
+if __name__ == '__main__':
+    # Threaded option to enable multiple instances for multiple user access support
+    app.run(threaded=True, port=5000)
+#
+# *** fim do código do aplicativo
+
+</code></pre>
 
               
             </article>
