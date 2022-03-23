@@ -406,9 +406,10 @@
 
 <h3 id="extracao-dos-links-das-orientacoes-tributarias">Extração dos Links das orientações tributárias</h3>
 <p>O arquivo <strong>03scrapy_orientacoes.py</strong> a seguir , possui o código python que extrai os links das orientações tributárias
-existentes no Menu "Assuntos" do site da RFB, utilizando a biblioteca scrapy.</p>
-<p>Para cada um dos Assuntos existentes no Menu, roda-se o programa com a linha da variável "start_urls" daquele assunto
-descomentada (sem "#") e com a dos outros assuntos comentada (com "#"). Substitui-se a cada execução para um determinado assunto, na linha
+existentes no Menu "Assuntos" do site da RFB, bem como das existentes no site da PGFN. Foi utilizada a biblioteca Python scrapy para
+fazer o 'web scraping'.</p>
+<p>Para cada um dos Assuntos existentes nos Menus, roda-se o programa com a linha da variável "start_urls" daquele assunto
+descomentada (sem "#") e com a dos outros assuntos comentada (com "#"). Substitui-se também, a cada execução para um determinado assunto, na linha
 de comando, o nome do arquivo .xml que será gerado com o nome de cada asssunto.</p>
 <p>A linha de comando será então:</p>
 <p>scrapy runspider <strong>03scrapy_orientacoes.py -o 5_pagamentos.xml</strong>, onde neste exemplo,
@@ -416,6 +417,17 @@ seria a linha de comando para o assunto "Pagamentos e Parcelamentos".</p>
 <p>O programa tem o código reproduzido abaixo:</p>
 <pre><code class="language-python"># 
 # para utilizar rodar o comando: scrapy runspider .\03scrapy_orientacoes.py -o 5_pagamentos.xml, alterando-se o nome do arquivo xml de saída a cada execução para um assunto diferente
+#
+# arquivos
+# 0_perdcomp.xml
+# 1_certidoes.xml
+# 2_cobrancas.xml
+# 3_declaracoes.xml
+# 4_pagamentos.xml
+# 5_tributos.xml
+# 6_cadastros.xml
+# 7_julgamentos.xml
+# 8_pgfn.xml
 #
 import re
 from scrapy.spiders import CrawlSpider, Rule
@@ -425,20 +437,23 @@ from scrapy.item import Item, Field
 class MyItem(Item):
   url= Field()
 
+
 class someSpider(CrawlSpider):
   name = 'crawltest'
   allowed_domains = ['www.gov.br']
-  #1 start_urls = ['https://www.gov.br/receitafederal/pt-br/assuntos/orientacao-tributaria/restituicao-ressarcimento-reembolso-e-compensacao'] #perdcomp
-  #2 start_urls = ['https://www.gov.br/receitafederal/pt-br/assuntos/orientacao-tributaria/certidoes-e-situacao-fiscal'] # certidoes e situacao fiscal
-  #3 start_urls = ['https://www.gov.br/receitafederal/pt-br/assuntos/orientacao-tributaria/cobrancas-e-intimacoes'] # cobrancas e intimacoes
-  #4 start_urls = ['https://www.gov.br/receitafederal/pt-br/assuntos/orientacao-tributaria/declaracoes-e-demonstrativos'] # declaracoes-e-demonstrativos
-  #5 start_urls = ['https://www.gov.br/receitafederal/pt-br/assuntos/orientacao-tributaria/pagamentos-e-parcelamentos'] # pagamentos-e-parcelamentos
-  #6 start_urls = ['https://www.gov.br/receitafederal/pt-br/assuntos/orientacao-tributaria/tributos'] # tributos
-  #7 start_urls = ['https://www.gov.br/receitafederal/pt-br/assuntos/orientacao-tributaria/cadastros'] # cadastros
-  #8 start_urls = ['https://www.gov.br/receitafederal/pt-br/assuntos/orientacao-tributaria/julgamento-administrativo'] # julgamentos administrativos
-  start_urls = ['https://www.gov.br/receitafederal/pt-br/assuntos/orientacao-tributaria/julgamento-administrativo'] # julgamento-administrativo
-
-  #substituir cada assunto na linha rules abaixo    
+  #
+  lnk0 = 'https://www.gov.br/receitafederal/pt-br/assuntos/orientacao-tributaria/restituicao-ressarcimento-reembolso-e-compensacao' #perdcomp
+  lnk1 = 'https://www.gov.br/receitafederal/pt-br/assuntos/orientacao-tributaria/certidoes-e-situacao-fiscal' # certidoes e situacao fiscal
+  lnk2 = 'https://www.gov.br/receitafederal/pt-br/assuntos/orientacao-tributaria/cobrancas-e-intimacoes' # cobrancas e intimacoes
+  lnk3 = 'https://www.gov.br/receitafederal/pt-br/assuntos/orientacao-tributaria/declaracoes-e-demonstrativos' # declaracoes-e-demonstrativos
+  lnk4 = 'https://www.gov.br/receitafederal/pt-br/assuntos/orientacao-tributaria/pagamentos-e-parcelamentos' # pagamentos-e-parcelamentos
+  lnk5 = 'https://www.gov.br/receitafederal/pt-br/assuntos/orientacao-tributaria/tributos' # tributos
+  lnk6 = 'https://www.gov.br/receitafederal/pt-br/assuntos/orientacao-tributaria/cadastros' # cadastros
+  lnk7 = 'https://www.gov.br/receitafederal/pt-br/assuntos/orientacao-tributaria/julgamento-administrativo' # julgamentos administrativos
+  lnk8 = 'https://www.gov.br/pgfn/pt-br/servicos/orientacoes-contribuintes' #orientações pgfn
+  #
+  start_urls = [lnk7] # alterar a cada execução para lnk + numero
+  # alterar no parametro allow o link correspondente a cada execução
   rules = (Rule(LxmlLinkExtractor(allow=r&quot;^https://www.gov.br/receitafederal/pt-br/assuntos/orientacao-tributaria/julgamento-administrativo&quot;), callback='parse_obj', follow=True),)
 
   def parse_obj(self,response):
@@ -449,8 +464,9 @@ class someSpider(CrawlSpider):
     return item
 #
 </code></pre>
-<p>Ao fim da execução do programa para cada um dos assuntos , será gerado um arquivo .xml com os links extraídos para cada assunto, que 
-terão o seu processamento feito por uma rotina similar aquela descrita em seções anteriores.</p>
+<p>Ao fim da execução do programa para cada um dos assuntos , será gerado um arquivo .xml com os links extraídos para cada assunto.
+Em seguida cada link será processado para extrair o texto com as perguntas/respostas, através do Notebook Jupyter <strong>04gera_banco_orientacoes.ipynb</strong> 
+que será explicado a seguir.</p>
 
               
             </article>

@@ -565,19 +565,19 @@ model2.save('model2')
 <p><strong>input_tokens</strong> -&gt; separa as palavras de cada texto;</p>
 </li>
 <li>
-<p><strong>dct</strong> -&gt;  lista cada palavra dos textos em um dicionario;</p>
+<p><strong>dct</strong> -&gt;  lista cada palavra dos textos em um dicionário;</p>
 </li>
 <li>
-<p><strong>corpus</strong> -&gt; faz um mapeamento de cada texto com os ids do dicionario (id da palavra, quantidade de ocorrencias);</p>
+<p><strong>corpus</strong> -&gt; faz um mapeamento de cada texto com os ids do dicionário (id da palavra, quantidade de ocorrências);</p>
 </li>
 <li>
-<p><strong>model</strong> -&gt; é o transformer responsavel por traduzir o corpus em um TF-IDF</p>
+<p><strong>model</strong> -&gt; é o transformer responsável por traduzir o corpus em um TF-IDF</p>
 </li>
 </ul>
 <h4 id="criando-uma-matriz-de-similaridades">Criando uma matriz de similaridades</h4>
 <p>Até aqui fizemos um pipeline que transformou textos em matrizes TF-IDF e agora podemos comparar duas TF-IDFs e verificar sua 
-similaridade. Então iremos criar duas matrizes de similaridade com todos os textos dos Serviços e das conversar comuns, 
-que chamaremos de index1 e index2. Com as matrizes criadas poderemos comparar o texto digitado pelo usuário com os textos
+similaridade. Então iremos criar duas matrizes de similaridade, respectivamente com todos os textos dos Serviços e das conversar comuns, 
+que chamaremos de 'index1' e 'index2'. Com as matrizes criadas poderemos comparar o texto digitado pelo usuário com os textos
 existentes em nossa base de dados.</p>
 <pre><code class="language-python"># Cria a matriz de similaridade dos Serviços
 index1 = similarities.SparseMatrixSimilarity(model1[corpus1], num_features=len(dct1))

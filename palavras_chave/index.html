@@ -263,10 +263,10 @@
         
           <li class="md-nav__item">
   <a href="#extraindo-as-sentencas-principais-do-texto-oquee-dos-servicos-rfb" class="md-nav__link">
-    Extraindo as sentenças principais do texto oQueE dos serviços RFB
+    Extraindo as sentenças principais do texto 'oQueE' dos serviços RFB
   </a>
   
-    <nav class="md-nav" aria-label="Extraindo as sentenças principais do texto oQueE dos serviços RFB">
+    <nav class="md-nav" aria-label="Extraindo as sentenças principais do texto 'oQueE' dos serviços RFB">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -467,10 +467,10 @@
         
           <li class="md-nav__item">
   <a href="#extraindo-as-sentencas-principais-do-texto-oquee-dos-servicos-rfb" class="md-nav__link">
-    Extraindo as sentenças principais do texto oQueE dos serviços RFB
+    Extraindo as sentenças principais do texto 'oQueE' dos serviços RFB
   </a>
   
-    <nav class="md-nav" aria-label="Extraindo as sentenças principais do texto oQueE dos serviços RFB">
+    <nav class="md-nav" aria-label="Extraindo as sentenças principais do texto 'oQueE' dos serviços RFB">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -556,7 +556,7 @@
 
 <h3 id="extracao-das-palavras-chave-dos-servicos">Extração das palavras chave dos serviços</h3>
 <p><strong>Nome do notebook jupyter: 02extrai_palavras_chave.ypnb</strong>:</p>
-<h4 id="extraindo-as-sentencas-principais-do-texto-oquee-dos-servicos-rfb">Extraindo as sentenças principais do texto oQueE dos serviços RFB</h4>
+<h4 id="extraindo-as-sentencas-principais-do-texto-oquee-dos-servicos-rfb">Extraindo as sentenças principais do texto 'oQueE' dos serviços RFB</h4>
 <h5 id="importando-as-bibliotecas">Importando as bibliotecas</h5>
 <pre><code class="language-python">#IMPORTANDO AS BIBLIOTECAS NECESSÁRIAS
 import  nltk
@@ -709,6 +709,10 @@ for j in range(len(df2)):
 df2['chaves_serv'] = plvx1
 #
 print(&quot;### fim tokenização das conversas ###&quot;)
+
+# grava as palavras chave das conversas em planilha
+df2.to_excel('./PerguntasTreinamento2.xlsx')
+#
 
 </code></pre>
 

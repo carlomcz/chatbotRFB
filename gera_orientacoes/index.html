@@ -685,7 +685,7 @@ from nltk.probability import FreqDist
 <h4 id="processa-os-links-de-orientacao-tributaria-para-o-assunto-restituicao-ressarcimento-reembolso-e-compensacao">Processa os links de orientacao tributária para o assunto restituicao, ressarcimento, reembolso e compensacao</h4>
 <pre><code class="language-python">#
 # processando os links de orientacao tributária para o assunto restituicao-ressarcimento-reembolso-e-compensacao
-with open('1_perdcomp.xml', 'r') as f: #lê arquivo .xml
+with open('0_perdcomp.xml', 'r') as f: #lê arquivo .xml
     data = f.read() 
 Bs_data = BeautifulSoup(data, &quot;xml&quot;) # transforma arquivo lido em objeto BeautifulSoup
 lnks = Bs_data.find_all('value') # encontra todos os links
@@ -738,11 +738,12 @@ dfx = pd.DataFrame({'Links': lista3})
 #
 sorted_dfx =dfx.sort_values(by=['Links'])
 #Salvando para uma planilha
-sorted_dfx.to_excel('./1_Links_perdcomp.xlsx', index = False)
+sorted_dfx.to_excel('./0_Links_perdcomp.xlsx', index = False)
 #
 # carregando os assuntos para o DataFrame
-df1 = pd.read_excel('./1_Links_perdcomp.xlsx')
+df1 = pd.read_excel('./0_Links_perdcomp.xlsx')
 df1
+#
 </code></pre>
 <h5 id="acessa-cada-link-para-raspar-o-titulo-e-o-texto-sobre-cada-assunto">Acessa cada link para "raspar" o titulo e o texto sobre cada assunto</h5>
 <pre><code class="language-python"># acessando cada link para &quot;raspar&quot; o titulo e o texto sobre cada assunto
@@ -789,7 +790,7 @@ for i in range(len(links1)):
 dfy = pd.DataFrame({'Link': links2, 'Assunto': servicos2, 'Html': htmls, 'Texto': oques})
 #
 #Salvando para uma planilha
-dfy.to_excel('./1_Perguntas_perdcomp.xlsx', index = False)
+dfy.to_excel('./0_Perguntas_perdcomp.xlsx', index = False)
 </code></pre>
 <h5 id="processa-os-textos-para">Processa os textos para:</h5>
 <ul>
@@ -803,7 +804,7 @@ dfy.to_excel('./1_Perguntas_perdcomp.xlsx', index = False)
 stopwords1 = set(stopwords.words('portuguese') + list(punctuation) + ['–'])
 #stopwords = stopwords.words('portuguese') + list(punctuation) + ['–']
 plx = ['``',&quot;''&quot;]
-df1 = pd.read_excel('./1_Perguntas_perdcomp.xlsx')
+df1 = pd.read_excel('./0_Perguntas_perdcomp.xlsx')
 #
 chave_lst =  [] 
 for i in range(len(df1)):
@@ -831,46 +832,50 @@ for i in range(len(df1)):
         #print(y,sentencas[y])
         str_chave = str_chave + &quot; &quot; + sentencas[y]
     chave_lst.append(str_chave)
+#
 </code></pre>
 <h5 id="salva-os-dados-em-uma-planilha">Salva os dados em uma planilha</h5>
 <pre><code class="language-python"># salva os textos em uma planilha
 #
 df1['texto_chave'] = chave_lst
-df1.to_excel('./1_Perguntas_perdcompFinal.xlsx', index = False)
+df1.to_excel('./0_Perguntas_perdcompFinal.xlsx', index = False)
 #
-len(df1) 
+len(df1)  
 </code></pre>
-<p>Todo o código anterior utilizado para gerar a planilha <strong>1_Perguntas_perdcompFinal.xlsx</strong>
-será repetido para cada um dos outros 7 assuntos cujos links foram
-salvos em planilha, gerando ao final mais 7 planilhas iguais a esta planilha.
+<p>Todo o código anterior utilizado para gerar a planilha <strong>0_Perguntas_perdcompFinal.xlsx</strong>
+será repetido para cada um dos outros 8 assuntos cujos links foram
+salvos em planilha, gerando ao final mais 8 planilhas iguais a esta.
 Como o código é idêntico, não será repetido nem comentado novamente. </p>
 <p>Neste ponto consolidamos manualmente utilizando o próprio Microsoft Excel, as seguintes planilhas:
-- 1_Perguntas_perdcompFinal.xlsx;</p>
+- 0_Perguntas_perdcompFinal.xlsx;</p>
 <ul>
 <li>
-<p>2_Perguntas_certidoesFinal.xlsx;</p>
+<p>1_Perguntas_certidoesFinal.xlsx;</p>
 </li>
 <li>
-<p>3_Perguntas_cobrancasFinal.xlsx;</p>
+<p>2_Perguntas_cobrancasFinal.xlsx;</p>
 </li>
 <li>
-<p>4_Perguntas_declaracoesFinal.xlsx</p>
+<p>3_Perguntas_declaracoesFinal.xlsx</p>
 </li>
 <li>
-<p>5_Perguntas_pagamentosFinal.xlsx;</p>
+<p>4_Perguntas_pagamentosFinal.xlsx;</p>
 </li>
 <li>
-<p>6_Perguntas_tributosFinal.xlsx;</p>
+<p>5_Perguntas_tributosFinal.xlsx;</p>
 </li>
 <li>
-<p>7_Perguntas_cadastrosFinal.xlsx , e</p>
+<p>6_Perguntas_cadastrosFinal.xlsx ,</p>
 </li>
 <li>
-<p>8_Perguntas_julgamentoFinal.xlsx</p>
+<p>7_Perguntas_julgamentoFinal.xlsx e</p>
+</li>
+<li>
+<p>8_Perguntas_pgfnFinal.xlsx</p>
 </li>
 </ul>
 <p>Com isso foi gravada uma planilha de  nome <strong>0_Perguntas_orientacoes_Final.xlsx</strong>, contendo todos os links
-que constam em cada uma destas 8 planilhas.</p>
+que constam em cada uma destas 9 planilhas.</p>
 <p>Seguindo com o processamento:</p>
 <h5 id="importa-a-biblioteca-spacy">Importa a biblioteca spacy</h5>
 <pre><code class="language-python"># importa a biblioteca spacy e carrega o corpus do idioma Português

@@ -626,18 +626,6 @@ def grava_log(textos, nomearq):
 #fim da função grava_conversa
 #
 
-#
-# função que faz busca no site da RFB
-#
-def buscaSiteRfb(txt):
-    texto1 = '&lt;div class=&quot;tit1&quot;&gt;&lt;p&gt;Para fazer uma pesquisa no site da Receita, basta clicar no link:&lt;/p&gt;&lt;/div&gt;'
-    a_url = &quot;https://www.gov.br/receitafederal/pt-br/search?SearchableText=&quot;
-    #a_url = &quot;https://www.gov.br/receitafederal/pt-br/search&quot;
-    xt = str(txt).strip()
-    volta = texto1 + '&lt;p&gt;&lt;a href=&quot;' +  a_url + xt + '&quot; target=&quot;_blank&quot;&gt;Clique para pesquisar&lt;/a&gt;&lt;/p&gt;'
-    #volta = texto1 + '&lt;a href=&quot;' +  a_url+xt + '&quot; target=&quot;_blank&quot;&gt;Clique para pesquisar&lt;/a&gt;'
-
-    return str(volta)
 
 #
 # função que busca no site da RFB pelo Google
@@ -767,107 +755,121 @@ def home():
 </code></pre>
 <p><strong>interação do bot com o usuário</strong></p>
 <pre><code class="language-python">
+# interação do bot com o usuário
 # adiciona rota que coleta o texto digitado pelo usuário
 @app.route(&quot;/get&quot;)
-def get_bot_response(): #
-    # variáveis iniciais
-    hora_min = datetime.today().strftime('%H:%M') # recebe a hora atual
-    userText = request.args.get('msg') # recebe o texto digitado pelo usuário
-    userText = userText.lower() # converte o texto para letras minúsculas
-    antigo = userText #guarda último texto digitado pelo usuário
-
-    cont_res = 0 # contador que indica se houve pelo menos uma resposta satisfatória do Bot
-
-    # armazena o texto do log na variável xlog
-    if userText[0] != '#': # usuário NÃO quer fazer busca no site 
-        xlog = str(hora_min)+&quot;#usuario#&quot;+str(userText)+&quot;\n&quot;
-    else:
-        xlog = str(hora_min)+&quot;#usuario#PesquisaRFB:&quot;+str(userText[1:])+&quot;\n&quot; # usuário quer fazer a busca no site 
-
-
-    grava_log(xlog,nomarq) # chama função para gravar o log da conversa
+def get_bot_response():
+    hora_min = datetime.today().strftime('%H:%M') #hora atual
+    userText = request.args.get('msg') #texto digitado pelo usuário
+    userText = userText.lower()
+    antigo = userText
+    cont_res = 0
+#
+#
+    # Abre  o arquivo com numeracao dos logs
+    arq_num = open('/home/carlomcz/leonino/' + 'numero_log.txt', 'r')
+    ult_log = int(arq_num.read())
+#
 </code></pre>
 <p><strong>Usuário digita "?" antes do texto e quer informações sobre o Serviço</strong></p>
-<pre><code class="language-python">
+<pre><code class="language-python">#
     if userText[0] == &quot;?&quot;:#quer informação sobre o serviço
+        str_log = str(ult_log).zfill(6)
+        xlog = &quot;#&quot;+ str_log + &quot;#&quot; + str(hora_min)+&quot;#usr#srv#&quot;+str(userText)+&quot;\n&quot;
+        ult_log = ult_log + 1
+        arq_num = open('/home/carlomcz/leonino/' + 'numero_log.txt', 'w')
+        arq_num.write(str(ult_log))
+        arq_num.close()
+        grava_log(xlog,nomarq)
         ret = &quot;&quot; #inicia texto da mensagem de retorno
-        txt_token = tokenizar(limpa_texto(str(userText))) #tokeniza texto digitado pelo usuário
+        txt_token = tokenizar(limpa_texto(str(userText)))
         ret= ret + '&lt;div class=&quot;tit1&quot;&gt;&lt;p&gt;Fiz uma pesquisa para encontrar orientação que possa lhe ajudar!...&lt;/p&gt;&lt;/div&gt;'
         # chama a funcão que calcula a similaridade utilizando o gensim
         resposta_bot = similaridade_servico(txt_token)
         ret = ret + '&lt;div class=&quot;tit1&quot;&gt;&lt;p&gt;Estes são os serviços mais relevantes que encontrei:&lt;/p&gt;&lt;/div&gt;'
 
-        # loop que monta o texto com as respostas encontradas conforme parãmetros definidos aqui
-        for i in range(5): 
+        for i in range(5):
             if resposta_bot.iloc[i][3] &gt; 0.3: #similaridade com o serviço &gt; 0.3
                 text_x = '&lt;div class=&quot;item1&quot;&gt;&lt;a href=' +  resposta_bot.iloc[i][1] + ' target=&quot;_blank&quot;&gt;' + resposta_bot.iloc[i][0] + '&lt;/a&gt;'
+                #text_x = '&lt;div class=&quot;item1&quot;&gt;&lt;a href=' +  resposta_bot.iloc[i][1] + ' target=&quot;_blank&quot;&gt;' + resposta_bot.iloc[i][0] + ' - ' + resposta_bot.iloc[i][4] + '&lt;/a&gt;'
                 text_x = text_x + &quot;&lt;div&gt;&quot; + resposta_bot.iloc[i][2] + &quot;&lt;/div&gt;&lt;/div&gt;&quot;
-                text_xx = &quot;serviço:&quot;+resposta_bot.iloc[i][0]+&quot;|similaridade:&quot;+str(resposta_bot.iloc[i][3])+&quot;|Link:&quot;+str(resposta_bot.iloc[i][1])
+                text_xx = &quot;Serviço:&quot; + resposta_bot.iloc[i][0]+&quot;|similaridade:&quot;+str(resposta_bot.iloc[i][3])+&quot;|Link:&quot;+str(resposta_bot.iloc[i][1])
                 ret = ret + text_x
-                #grava log da resposta enviada
-                xlog = hora_min+&quot;#bot#&quot;+text_xx+&quot;\n&quot;
+                xlog = &quot;#bot#srv#&quot;+text_xx+&quot;\n&quot;
                 grava_log(xlog,nomarq)
-
                 cont_res = cont_res + 1 #incrementa contador de respostas válidas
 #
+
 </code></pre>
 <p><strong>Usuário digita "#" antes do texto e quer fazer busca no site da Receita</strong></p>
-<pre><code class="language-python">    elif userText[0] == &quot;#&quot;: #pesquisa
+<pre><code class="language-python">#
+    elif userText[0] == &quot;#&quot;: #pesquisa
+        str_log = str(ult_log).zfill(6)
+        xlog = &quot;#&quot;+ str_log + &quot;#&quot; + str(hora_min)+&quot;#usr#pes#&quot;+str(userText[1:])+&quot;\n&quot;
+        ult_log = ult_log + 1
+        grava_log(xlog,nomarq)
+        arq_num = open('/home/carlomcz/leonino/' + 'numero_log.txt', 'w')
+        arq_num.write(str(ult_log))
+        arq_num.close()
         ret = '&lt;div class=&quot;tit1&quot;&gt;&lt;p&gt;Então vou te enviar para uma busca no site da Receita:&lt;/p&gt;&lt;/div&gt;'
         #respo = buscaSiteRfb(userText[1:])
-        respo = buscaGoogle(userText[1:]) #encaminha usuário para a busca com o texto digitado
+        respo = buscaGoogle(userText[1:])
         ret = ret + respo
         cont_res = cont_res + 1 #incrementa contador de respostas válidas
-#
+
 </code></pre>
 <p><strong>Usuário digita "=" antes do texto e quer orientações tributárias</strong></p>
-<pre><code class="language-python">    elif userText[0] == &quot;=&quot;: # quer orientações tributárias
+<pre><code class="language-python">    elif userText[0] == &quot;=&quot;:#quer informação sobre orientacoes tributárias
+        str_log = str(ult_log).zfill(6)
+        xlog = &quot;#&quot;+ str_log + &quot;#&quot; + str(hora_min)+&quot;#usr#ori#&quot;+str(userText)+&quot;\n&quot;
+        ult_log = ult_log + 1
+        arq_num = open('/home/carlomcz/leonino/' + 'numero_log.txt', 'w')
+        arq_num.write(str(ult_log))
+        arq_num.close()
+        grava_log(xlog,nomarq)
         ret = &quot;&quot; #inicia texto da mensagem de retorno
-        txt_token = tokenizar(limpa_texto(str(userText))) #tokeniza o texto
+        txt_token = tokenizar(limpa_texto(str(userText)))
         ret= ret + '&lt;div class=&quot;tit1&quot;&gt;&lt;p&gt;Fiz uma pesquisa para encontrar orientação que possa lhe ajudar!...&lt;/p&gt;&lt;/div&gt;'
         # chama a funcão que calcula a similaridade utilizando o gensim
         resposta_bot = similaridade_orientacoes(txt_token)
         ret = ret + '&lt;div class=&quot;tit1&quot;&gt;&lt;p&gt;Estas são as melhores respostas que encontrei:&lt;/p&gt;&lt;/div&gt;'
-
-        # loop que monta o texto com as respostas encontradas conforme parãmetros definidos aqui
+        #
         for i in range(5):
             if resposta_bot.iloc[i][2] &gt; 0.20:
                 l_tit = resposta_bot.iloc[i][1].split(&quot;/&quot;)
                 l_tit = l_tit[7:len(l_tit)-1]
                 s_tit = &quot; / &quot;.join([str(x) for x in l_tit])
                 text_x = '&lt;div class=&quot;item1&quot;&gt;&lt;p&gt;&lt;b&gt;'+ s_tit + &quot; / &quot; + resposta_bot.iloc[i][0]  + '&lt;/b&gt; , para mais informações &lt;a href=' +  resposta_bot.iloc[i][1] + ' target=&quot;_blank&quot;&gt;Clique aqui&lt;/a&gt;&lt;/p&gt;&lt;/div&gt;'
-                text_xx = &quot;Msg:&quot; + userText + &quot;|Assunto:&quot;+resposta_bot.iloc[i][0] +&quot; - Link:&quot;+resposta_bot.iloc[i][1] +&quot;|similaridade:&quot;+str(resposta_bot.iloc[i][2])
+                #s1 = resposta_bot.iloc[i][2].replace('_x000D_', ' ')
+                #text_x = text_x + '&lt;div&gt;' + s1 + &quot;&lt;/div&gt;&quot;
+                text_xx = &quot;Assunto:&quot;+resposta_bot.iloc[i][0] +&quot;|Link:&quot;+resposta_bot.iloc[i][1] +&quot;|similaridade:&quot;+str(resposta_bot.iloc[i][2])
                 ret = ret + text_x
-
-                # grava log da resposta enviada
-                xlog = hora_min+&quot;#bot#&quot;+text_xx+&quot;\n&quot;
+                xlog = &quot;#bot#ori#&quot;+text_xx+&quot;\n&quot;
                 grava_log(xlog,nomarq)
-
                 cont_res = cont_res + 1 #incrementa contador de respostas válidas
 #
 </code></pre>
 <p><strong>Usuário quer conversar normalmente (bom dia, boa tarde, etc.)</strong></p>
 <pre><code class="language-python">    else: # mensagem normal/bate papo
+        xlog = &quot;#&quot;+ str(hora_min)+&quot;#usr#msg#&quot;+str(userText)+&quot;\n&quot;
+        grava_log(xlog,nomarq)
         ret = &quot;&quot;
         txt_token = tokenizar(limpa_texto(str(userText)))
         resposta_bot = similaridade_conversa(txt_token)
-
-        # no caso de conversa comum busca apenas a resposta com maior similaridade
         if resposta_bot.iloc[0][2] &gt; 0.4: #similaridade com a mensagem digitada pelo usuário
             text_x = '&lt;div class=&quot;item1&quot;&gt;' +  resposta_bot.iloc[0][1] + &quot;&lt;/div&gt;&quot;
-            text_xx = &quot;msg:&quot; + resposta_bot.iloc[0][0] + &quot;|Resposta:&quot; + resposta_bot.iloc[0][1] + &quot;|Similaridade:&quot; + str(resposta_bot.iloc[0][2])
+            text_xx = resposta_bot.iloc[0][0] + &quot;|Resposta:&quot; + resposta_bot.iloc[0][1] + &quot;|Similaridade:&quot; + str(resposta_bot.iloc[0][2])
             ret = ret + text_x
-
-            # grava log da conversa
-            xlog = hora_min+&quot;#bot#&quot;+text_xx+&quot;\n&quot;
+            xlog = &quot;#bot#msg#&quot;+text_xx+&quot;\n&quot;
             grava_log(xlog,nomarq)
             cont_res = cont_res + 1 #incrementa contador de respostas válidas
+#
 </code></pre>
 <p><strong>Testando se achou alguma resposta e enviando o retorno para o usuário(conteúdo da variável "ret"</strong></p>
-<pre><code class="language-python">    if cont_res == 0: # sem resposta satisfatória
+<pre><code class="language-python">    if cont_res == 0: #sem resposta satisfatória
         ret = &quot;&lt;p&gt;&lt;b&gt;Desculpe, ainda estou aprendendo e não encontrei uma Resposta!!! Você pode escolher outra opção ou reformular a sua dúvida?&lt;/b&gt;&lt;/p&gt;&quot;
 
-    # texto da mensagem inicial
+#
     msg_ini = '&lt;hr /&gt;=============================================&lt;hr /&gt;&lt;strong&gt;Olá!!!&lt;/strong&gt;'
     msg_ini = msg_ini + '&lt;div&gt;&lt;p&gt;Digite a sua mensagem ou então digite  uma frase com a sua dúvida antecedida por um dos seguintes caracteres:&lt;/p&gt;'
     msg_ini = msg_ini + '&lt;p&gt;&lt;b&gt;&lt;i&gt;?&lt;/i&gt;&lt;/b&gt;,  se a dúvida for sobre um serviço prestado pela RFB;&lt;/p&gt;'
@@ -875,9 +877,7 @@ def get_bot_response(): #
     msg_ini = msg_ini + '&lt;p&gt;&lt;b&gt;&lt;i&gt;#&lt;/i&gt;&lt;/b&gt;,  para que façamos uma pesquisa no site RFB sobre a sua dúvida!&lt;/p&gt;&lt;/div&gt;'
 
     ret = ret + msg_ini
-
-    # após montar o texto de resposta na variável &quot;ret&quot;, envia a resposta para o usuário
-    return ret 
+    return ret
 #
 </code></pre>
 <p><strong>Rodando o aplicativo na porta 5000</strong></p>
@@ -888,7 +888,7 @@ if __name__ == '__main__':
     app.run(threaded=True, port=5000)
 #
 # *** fim do código do aplicativo
-
+#
 </code></pre>
 
               
